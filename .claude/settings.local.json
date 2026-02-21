@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet sln:*)",
+      "Bash(dotnet add:*)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(npx:*)",
+      "WebFetch(domain:tamagui.dev)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(npm view:*)",
+      "Bash(dotnet ef migrations add:*)",
+      "Bash(dir:*)",
+      "Read(//c/Users/chris/.claude/**)",
+      "Bash(docker compose:*)",
+      "Bash(where:*)",
+      "Bash(docker:*)",
+      "Bash(cmd.exe /c \"start /B \"\"\"\" \"\"C:/Program Files/Docker/Docker/Docker Desktop.exe\"\"\")",
+      "Bash(cmd.exe /c \"netstat -ano | findstr 6379\")",
+      "Bash(netsh interface ipv4 show excludedportrange:*)",
+      "Bash(cmd.exe /c \"netsh interface ipv4 show excludedportrange protocol=tcp\")",
+      "Bash(dotnet run:*)",
+      "Bash(cmd.exe /c \"netstat -ano | findstr :5432\")",
+      "Bash(printf:*)",
+      "Bash(xxd:*)"
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "fexora",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "type-check": "turbo type-check",
+    "clean": "turbo clean",
+    "dev:web": "turbo dev --filter=web",
+    "dev:acp": "turbo dev --filter=acp",
+    "dev:moderator": "turbo dev --filter=moderator",
+    "dev:mobile": "turbo dev --filter=mobile",
+    "build:web": "turbo build --filter=web",
+    "build:acp": "turbo build --filter=acp",
+    "build:moderator": "turbo build --filter=moderator"
+  },
+  "devDependencies": {
+    "turbo": "^2"
+  },
+  "packageManager": "npm@11.7.0"
+}

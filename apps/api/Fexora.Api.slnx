@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Fexora.Api/Fexora.Api.csproj" />
+  <Project Path="Fexora.Core/Fexora.Core.csproj" />
+  <Project Path="Fexora.Infrastructure/Fexora.Infrastructure.csproj" />
+  <Project Path="Fexora.Orchestrator/Fexora.Orchestrator.csproj" />
+</Solution>

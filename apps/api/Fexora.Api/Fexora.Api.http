@@ -1,0 +1,6 @@
+@Fexora.Api_HostAddress = http://localhost:5285
+
+GET {{Fexora.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
