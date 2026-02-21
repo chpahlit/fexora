@@ -22,7 +22,21 @@
       "Bash(dotnet run:*)",
       "Bash(cmd.exe /c \"netstat -ano | findstr :5432\")",
       "Bash(printf:*)",
-      "Bash(xxd:*)"
+      "Bash(xxd:*)",
+      "Bash(ls:*)",
+      "Skill(ralph-loop:ralph-loop)",
+      "Skill(ralph-loop:ralph-loop:*)",
+      "Bash(grep:*)",
+      "Bash(node --version:*)",
+      "Bash(npm --version:*)",
+      "Bash(pnpm:*)",
+      "Bash(COREPACK_ENABLE_STRICT=0 pnpm install:*)",
+      "Bash(COREPACK_ENABLE_STRICT=0 pnpm:*)",
+      "Bash(\"/Users/christianpahl/.claude/plugins/cache/claude-plugins-official/ralph-loop/452c38756951/scripts/setup-ralph-loop.sh\" \"Arbeite die FEXORA Phase 1 Sprint 1 Tickets ab. Phase 0 ist komplett. Der .NET API Backend ist implementiert. Die 3 Next.js Frontend-Apps sind scaffolded. Tickets: FEXORA-011 bis FEXORA-021. Nutze bestehende React Query hooks, Zod-Validatoren, shadcn/ui. API auf localhost:5000. pnpm. Markiere fertige Tickets in tickets/README.md als Done.\" --max-iterations 20 --completion-promise \"PHASE 1 SPRINT 1 COMPLETE\")",
+      "Bash(\"/Users/christianpahl/.claude/plugins/cache/claude-plugins-official/ralph-loop/452c38756951/scripts/setup-ralph-loop.sh\" \"Arbeite FEXORA Phase 1 Sprint 2 Tickets ab \\(FEXORA-026 bis FEXORA-051\\). Phase 0 und Sprint 1 sind komplett. Backend ist implementiert. Frontend-Apps haben Auth, Profile, Content, Likes, Admin Review. Erstelle UI-Seiten und Komponenten fuer: Stories, Feed, Explore, Suche, Trending, Notifications, Content-Detail, Favoriten, Shares, Wallet, Payment, Chat, Creator-Dashboard, Tipping, Scheduling, Custom Requests, Referrals, Promo Codes, Mass-Messaging, Bundles, DSGVO Export, Abo-System. Nutze bestehende hooks, validators, shadcn/ui. pnpm. Markiere Tickets als Done.\" --max-iterations 25 --completion-promise \"PHASE 1 SPRINT 2 COMPLETE\")",
+      "Bash(find:*)",
+      "Bash(\"/Users/christianpahl/.claude/plugins/cache/claude-plugins-official/ralph-loop/452c38756951/scripts/setup-ralph-loop.sh\" \"Arbeite FEXORA Phase 2 Sprint 3 Tickets ab \\(FEXORA-052 bis FEXORA-063\\). Diese umfassen: ACP User/Creator-Verwaltung, Pricing/Policy, Payments und Payouts, Risk und Trust, Reports Dashboard, Moderator 3-Spalten-Board, Creator-Impersonation, Snippets und Quick-Actions, Hotkeys und Navigation, Agency-System API, Agency-Dashboard, Agency-Verwaltung. Der .NET API Backend ist bereits implementiert. Fokus liegt auf den Frontend-Apps \\(apps/acp fuer Admin, apps/moderator fuer Moderatoren\\). Schaue dir den aktuellen Projektstand an, lies die Ticket-Dateien in tickets/ und baue die UI-Seiten und Komponenten. Nutze die bestehenden Patterns \\(shadcn/ui, next-intl, AuthProvider, React Query\\). Markiere fertige Tickets in tickets/README.md als Done. Stelle sicher dass alle 3 Apps erfolgreich builden.\" --max-iterations 15 --completion-promise \"PHASE 2 SPRINT 3 COMPLETE\")",
+      "Bash(\"/Users/christianpahl/.claude/plugins/cache/claude-plugins-official/ralph-loop/452c38756951/scripts/setup-ralph-loop.sh\" \"Arbeite die FEXORA Tickets fuer Phase 2 Sprint 4 \\(FEXORA-064 bis FEXORA-071\\) ab. Erstelle die noetigen Frontend-Seiten und Komponenten. Markiere jedes fertige Ticket in tickets/README.md als Done. Stelle sicher dass alle 3 Apps erfolgreich builden.\" --max-iterations 15 --completion-promise \"PHASE 2 SPRINT 4 COMPLETE\")"
     ]
   }
 }

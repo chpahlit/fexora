@@ -50,6 +50,20 @@ services:
       timeout: 5s
       retries: 5
 
+  # ── MinIO Init (create default bucket) ──
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 $${MINIO_ROOT_USER:-fexora} $${MINIO_ROOT_PASSWORD:-fexora_dev_123};
+      mc mb --ignore-existing local/fexora-media;
+      mc anonymous set download local/fexora-media/public;
+      exit 0;
+      "
+
 volumes:
   pgdata:
   redisdata:

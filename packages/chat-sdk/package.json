@@ -9,9 +9,13 @@
   },
   "dependencies": {
     "@microsoft/signalr": "^8",
-    "@fexora/shared": "*"
+    "@fexora/shared": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19"
   },
   "devDependencies": {
+    "@types/react": "^19",
     "typescript": "^5"
   }
 }
