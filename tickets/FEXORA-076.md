@@ -4,7 +4,7 @@
 **Prioritat:** Hoch
 **App:** API
 **Aufwand:** 6-8h
-**Status:** Open
+**Status:** Done
 
 ---
 
@@ -14,22 +14,22 @@ Handlebars-basiertes Template-System fur Orchestrator-Nachrichten: Variablenerse
 
 ## Aufgaben
 
-- [ ] **Template-Management:**
+- [x] **Template-Management:**
   - `message_templates` Tabelle: id, name, body_text, variables[], ab_group
   - CRUD-Endpoints fur Templates
   - Template-Validierung (alle Variablen mussen auflosbar sein)
-- [ ] **Variablenersetzung:**
+- [x] **Variablenersetzung:**
   - `{{username}}` — Username des Empfangers
   - `{{creator_name}}` — Name des Sender-Profils
   - `{{first_name}}` — Vorname (falls verfugbar)
   - `{{last_purchase_date}}` — Datum des letzten Kaufs
   - `{{days_since_last_visit}}` — Tage seit letztem Besuch
   - Keine Template-Logik (kein if/for), nur Platzhalter
-- [ ] **Handlebars-Integration:**
+- [x] **Handlebars-Integration:**
   - Handlebars.Net NuGet Package
   - Template-Compilation mit Caching
   - Fallback-Werte fur fehlende Variablen
-- [ ] **A/B-Testing Vorbereitung:**
+- [x] **A/B-Testing Vorbereitung:**
   - `ab_group` Feld fur Template-Varianten
   - Template-Auswahl basierend auf A/B-Gruppe
 

@@ -4,7 +4,7 @@
 **Prioritat:** Hoch
 **App:** API
 **Aufwand:** 6-8h
-**Status:** Open
+**Status:** Done
 
 ---
 
@@ -14,21 +14,21 @@ Rate Limits und Ruhezeiten fur Orchestrator-Aktionen: Max N Aktionen pro Tag pro
 
 ## Aufgaben
 
-- [ ] **Rate Limits (pro User):**
+- [x] **Rate Limits (pro User):**
   - Max Aktionen/Tag/User (konfigurierbar pro Szenario)
   - Max Nachrichten/Tag global
   - Tracking in Redis (INCR + TTL)
   - Bei Limit: Step wird auf nachsten Tag verschoben
-- [ ] **Quiet Hours:**
+- [x] **Quiet Hours:**
   - Zeitfenster: 23:00 - 08:00 CET/CEST
   - Keine Aktionen wahrend Quiet Hours
   - Steps werden auf 08:00 nachsten Tag verschoben
   - Timezone: Mitteleuropaische Zeit (DACH-Fokus)
-- [ ] **Globaler Limiter:**
+- [x] **Globaler Limiter:**
   - Max Aktionen/Stunde plattformweit
   - Verhindert Uberlastung bei vielen parallelen Szenarien
   - Backpressure: Jobs queuen, nicht droppen
-- [ ] **Konfiguration:**
+- [x] **Konfiguration:**
   - Rate Limits in `scenario_steps.rate_limit_cfg_json`
   - Globale Limits in `platform_settings`
   - Quiet Hours hardcoded (23-8 CET)

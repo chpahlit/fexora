@@ -1,0 +1,13 @@
+[
+  {
+    "ticket": "FEXORA-010",
+    "description": "Add specialized database indexes: composite feed index, FTS GIN indexes, partial indexes for content status",
+    "steps": [
+      "Create EF Core migration with all missing indexes from FEXORA-010",
+      "Include: idx_content_feed (composite), idx_content_fts (GIN), idx_profiles_fts (GIN), idx_content_approved (partial), idx_content_pending (partial)",
+      "Include: idx_trending, idx_messages_mod_attr (partial), idx_notifications_user, idx_blocked_unique, idx_subscriptions_check, idx_comments_content, idx_content_tags_tag",
+      "dotnet build succeeds without errors"
+    ],
+    "passes": false
+  }
+]

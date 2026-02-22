@@ -4,7 +4,7 @@
 **Prioritat:** Hoch
 **App:** ACP
 **Aufwand:** 16-22h
-**Status:** Open
+**Status:** ✅ Done
 
 ---
 

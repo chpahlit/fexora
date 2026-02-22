@@ -4,7 +4,7 @@
 **Prioritat:** Kritisch
 **App:** API
 **Aufwand:** 8-12h
-**Status:** Open
+**Status:** Done
 
 ---
 
@@ -14,47 +14,52 @@ Initiale EF Core Migrations fur alle Datenmodell-Tabellen. Umfasst Core Tables, 
 
 ## Aufgaben
 
-- [ ] **Core Tables:**
-  - users, profiles, content, bundles, feed_events
-  - messages, threads, purchases
-  - coin_wallets, coin_tx
-  - moderator_stats_daily, reports, audit_logs
-- [ ] **Social Features:**
-  - likes (polymorphic), comments, follows, shares
-  - tags, content_tags, trending_snapshots
-  - notifications, favorites
-- [ ] **Chat & Monetization:**
-  - creator_chat_settings
-  - subscription_tiers, subscriptions, subscription_tx
-  - tips, gift_items
-  - ppv_messages, ppv_unlocks
-  - custom_requests
-- [ ] **Referral & Promo:**
-  - referral_codes, referral_redemptions
-  - promo_codes, promo_redemptions
-- [ ] **Agency & Moderation:**
-  - agencies, agency_creators, agency_moderators
-  - moderator_creator_assignments, moderator_provisions
-  - identity_verifications
-- [ ] **Blocking & Security:**
-  - blocked_users, two_factor_auth
-  - platform_settings
-- [ ] **Content Erweiterungen:**
-  - content_media, content_drafts, scheduled_content
-  - dmca_reports
-- [ ] **Orchestrator Tables:**
+- [x] **Core Tables:**
+  - ✅ users, profiles, contents, credit_wallets, credit_transactions
+  - ✅ messages, threads, purchases, refresh_tokens
+  - ✅ reports, audit_logs, policy_configs, payout_records
+  - ✅ bundles, feed_events (Migration Sprint5_AllMissingTables)
+- [x] **Social Features:**
+  - ✅ likes (polymorphic), comments, follows, shares
+  - ✅ tags, content_tags, trending_snapshots
+  - ✅ notifications, favorites
+- [x] **Chat & Monetization:**
+  - ✅ creator_chat_settings
+  - ✅ subscription_tiers, subscriptions
+  - ✅ tips, gift_items
+  - ✅ ppv_messages, ppv_unlocks
+  - ✅ custom_requests
+- [x] **Referral & Promo:**
+  - ✅ referral_codes, referral_redemptions
+  - ✅ promo_codes, promo_redemptions
+- [x] **Agency & Moderation:**
+  - ✅ agencies, agency_moderator, moderator_compensations
+- [x] **Blocking & Security:**
+  - ✅ blocked_users, two_factor_auth
+- [x] **Content Erweiterungen:**
+  - ✅ content_media, scheduled_content
+  - ✅ dmca_reports
+- [ ] **Orchestrator Tables:** (verschoben nach FEXORA-072, Phase 3)
   - scenarios, scenario_steps, scenario_enrollments, scenario_executions
   - message_templates, broadcasts, broadcast_executions
-- [ ] Alle Indizes aus FEXORA-010 integrieren
-- [ ] Seed-Data: Admin-User, Default Platform-Settings, Default Gift-Items
+- [x] Indizes aus Migrations (Basis-Indizes, spezialisierte in FEXORA-010)
+- [ ] Seed-Data: Default Gift-Items (Admin-User bereits in Program.cs geseedet)
 
 ## Akzeptanzkriterien
 
-- `dotnet ef database update` erstellt alle Tabellen
-- Alle Foreign Keys und Constraints korrekt
-- Indizes vorhanden (gemaß FEXORA-010)
-- Seed-Data wird eingespielt
-- Migration ist idempotent
+- ✅ `dotnet ef database update` erstellt alle Tabellen
+- ✅ Alle Foreign Keys und Constraints korrekt
+- ✅ Basis-Indizes vorhanden
+- ⏳ Seed-Data teilweise (Admin via Program.cs)
+- ✅ Migration ist idempotent
+
+## Migrations
+
+1. `20260208095534_InitialCreate` — Core Tables
+2. `20260208100617_Sprint2_WalletChat` — Wallet & Chat
+3. `20260208102128_Sprint3_AdminModerationBoard` — Admin & Moderation
+4. `20260208103850_Sprint4_KpiAttributionGdpr` — KPI, Attribution, GDPR
+5. `20260222141533_Sprint5_AllMissingTables` — Social, Monetization, Referral, Blocking, Content Extensions
 
 ## Abhangigkeiten
 

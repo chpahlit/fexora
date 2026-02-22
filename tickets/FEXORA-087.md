@@ -4,7 +4,7 @@
 **Prioritat:** Hoch
 **App:** Web + API
 **Aufwand:** 14-18h
-**Status:** Open
+**Status:** ✅ Done
 
 ---
 

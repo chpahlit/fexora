@@ -6,5 +6,6 @@ public enum ContentStatus
     Pending,
     Approved,
     Rejected,
-    Removed
+    Removed,
+    TakenDown
 }

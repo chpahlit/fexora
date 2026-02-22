@@ -17,10 +17,13 @@
     "dev:mobile": "turbo dev --filter=mobile",
     "build:web": "turbo build --filter=web",
     "build:acp": "turbo build --filter=acp",
-    "build:moderator": "turbo build --filter=moderator"
+    "build:moderator": "turbo build --filter=moderator",
+    "ralph": "bun run scripts/ralph/runner.ts",
+    "generate": "pnpm --filter @fexora/api-client generate"
   },
   "devDependencies": {
-    "turbo": "^2"
+    "turbo": "^2",
+    "vitest": "^4.0.18"
   },
   "packageManager": "pnpm@9.11.0"
 }

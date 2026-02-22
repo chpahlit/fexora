@@ -33,7 +33,7 @@ export default function ModeratorDashboard() {
           isVerified18: true,
           isActive: true,
           createdAt: "",
-          profile: u.profile ? { userId: u.id, username: u.profile.username ?? "", badges: [], offersCustom: false } : undefined,
+          profile: u.profile ? { userId: u.id, username: u.profile.username ?? "", badges: [], offersCustom: false, updatedAt: "" } : undefined,
         });
       } else {
         setError("Access denied. Moderator or Admin role required.");
@@ -101,6 +101,24 @@ export default function ModeratorDashboard() {
               <CardHeader>
                 <CardTitle>Reports</CardTitle>
                 <CardDescription>Performance reports and provisions</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+
+          <Link href="/analytics">
+            <Card className="hover:border-primary/50 transition-colors cursor-pointer">
+              <CardHeader>
+                <CardTitle>Analytics</CardTitle>
+                <CardDescription>Trends, KPIs and performance metrics</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+
+          <Link href="/audit">
+            <Card className="hover:border-primary/50 transition-colors cursor-pointer">
+              <CardHeader>
+                <CardTitle>Audit Log</CardTitle>
+                <CardDescription>Action history and accountability</CardDescription>
               </CardHeader>
             </Card>
           </Link>

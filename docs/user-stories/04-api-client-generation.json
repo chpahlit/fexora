@@ -1,0 +1,27 @@
+[
+  {
+    "ticket": "FEXORA-023",
+    "description": "OpenAPI spec generation from .NET API via NSwag/Swashbuckle",
+    "steps": [
+      "Add Swashbuckle.AspNetCore to Fexora.Api",
+      "Configure OpenAPI/Swagger in Program.cs with API versioning (/api/v1/)",
+      "All existing controllers are documented in the generated spec",
+      "Swagger UI accessible at /swagger in development",
+      "dotnet build succeeds without errors"
+    ],
+    "passes": false
+  },
+  {
+    "ticket": "FEXORA-023",
+    "description": "TypeScript client and React Query hooks auto-generation from OpenAPI",
+    "steps": [
+      "Add NSwag or openapi-typescript-codegen to packages/api-client",
+      "Create npm script 'generate' that generates TypeScript types and client from OpenAPI spec",
+      "Generated types are fully typed (no 'any')",
+      "React Query hooks (useQuery for GET, useMutation for POST/PATCH/DELETE) are generated or manually wrapped",
+      "All 3 web apps can import from @fexora/api-client",
+      "npm run type-check succeeds"
+    ],
+    "passes": false
+  }
+]

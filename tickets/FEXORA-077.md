@@ -4,7 +4,7 @@
 **Prioritat:** Hoch
 **App:** API
 **Aufwand:** 14-18h
-**Status:** Open
+**Status:** Done
 
 ---
 
@@ -14,7 +14,7 @@ SQL-basierte Targeting-Engine: Segmente definieren, User-Gruppen fur Szenarien u
 
 ## Aufgaben
 
-- [ ] **Segment-Definierung:**
+- [x] **Segment-Definierung:**
   - JSON-basierte Query-DSL (targeting_query_json)
   - Filter-Kriterien:
     - Registrierungsdatum (vor/nach X Tagen)
@@ -24,15 +24,15 @@ SQL-basierte Targeting-Engine: Segmente definieren, User-Gruppen fur Szenarien u
     - Follower-Status (folgt Creator X / nicht)
     - Chat-Aktivitat (aktiv / inaktiv)
     - Coin-Balance (min/max)
-- [ ] **Query-Builder:**
+- [x] **Query-Builder:**
   - JSON-DSL -> SQL-Ubersetzung
   - Sichere Parametrisierung (kein SQL Injection)
   - Preview: Geschatzte Segment-Grosse
-- [ ] **Segment-Caching:**
+- [x] **Segment-Caching:**
   - Berechnete Segmente in Redis cachen
   - TTL: 1 Stunde
   - Refresh bei Szenario-/Broadcast-Start
-- [ ] **API-Endpoints:**
+- [x] **API-Endpoints:**
   - `POST /segments/preview` — Segment-Grosse abschatzen
   - `POST /segments/users` — User-IDs des Segments abrufen
 

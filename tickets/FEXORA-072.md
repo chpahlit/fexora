@@ -4,7 +4,7 @@
 **Prioritat:** Kritisch
 **App:** API
 **Aufwand:** 14-18h
-**Status:** Open
+**Status:** Done
 
 ---
 
@@ -14,21 +14,21 @@
 
 ## Aufgaben
 
-- [ ] **Fexora.Orchestrator Projekt:**
+- [x] **Fexora.Orchestrator Projekt:**
   - .NET Hosted Service (IHostedService)
   - Hangfire Integration fur Job-Scheduling
   - Job-Queue Konfiguration (Parallelitat, Retry-Policy)
   - Dead Letter Queue fur fehlgeschlagene Jobs
-- [ ] **Scheduler:**
+- [x] **Scheduler:**
   - Minutlicher Check auf fallige Szenario-Schritte
   - Batch-Processing: Enrollments verarbeiten
   - Backpressure-Mechanismus (Queue-Grosse limitieren)
-- [ ] **Job-Typen:**
+- [x] **Job-Typen:**
   - `ExecuteScenarioStep` — Einzelnen Schritt ausfuhren
   - `ProcessBroadcast` — Broadcast-Nachrichten versenden
   - `RefreshSegments` — Targeting-Segmente aktualisieren
   - `CleanupCompletedEnrollments` — Abgeschlossene Enrollments aufraumen
-- [ ] **Monitoring:**
+- [x] **Monitoring:**
   - Hangfire Dashboard (nur fur Admins)
   - Metriken: Jobs/Minute, Fehlerrate, Queue-Grosse
   - Alerting bei Queue-Stau

@@ -9,7 +9,9 @@
     "./client": "./src/client.ts"
   },
   "scripts": {
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "generate": "openapi-typescript http://localhost:5000/openapi/v1.json -o src/generated.ts"
   },
   "dependencies": {
     "@fexora/shared": "workspace:*",
@@ -20,6 +22,7 @@
   },
   "devDependencies": {
     "@types/react": "^19",
+    "openapi-typescript": "^7.13.0",
     "typescript": "^5"
   }
 }

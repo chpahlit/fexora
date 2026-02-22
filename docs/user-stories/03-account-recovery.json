@@ -1,0 +1,40 @@
+[
+  {
+    "ticket": "FEXORA-025",
+    "description": "IEmailService interface and Resend implementation for sending emails",
+    "steps": [
+      "Define IEmailService interface in Fexora.Core/Interfaces with SendAsync method",
+      "Create ResendEmailService in Fexora.Infrastructure/Services implementing IEmailService",
+      "Register IEmailService in DI container (Program.cs)",
+      "Add Resend API key to appsettings and .env.example",
+      "dotnet build succeeds without errors"
+    ],
+    "passes": false
+  },
+  {
+    "ticket": "FEXORA-025",
+    "description": "Password reset API endpoints with secure token flow",
+    "steps": [
+      "Add POST /auth/password-reset endpoint (request reset by email)",
+      "Add POST /auth/password-reset/confirm endpoint (set new password with token)",
+      "Token is single-use, expires after 1 hour",
+      "No information leak: always return 200 regardless of email existence",
+      "Rate limit: max 3 requests per hour per email",
+      "dotnet build succeeds without errors"
+    ],
+    "passes": false
+  },
+  {
+    "ticket": "FEXORA-025",
+    "description": "Password reset UI pages in web app",
+    "steps": [
+      "Create [locale]/(auth)/forgot-password/page.tsx with email input form",
+      "Create [locale]/(auth)/reset-password/page.tsx with token from URL and new password form",
+      "Zod validation for password strength",
+      "Success and error messages (i18n DE+EN)",
+      "npm run type-check succeeds",
+      "npm run build succeeds"
+    ],
+    "passes": false
+  }
+]

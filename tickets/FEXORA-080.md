@@ -4,7 +4,7 @@
 **Prioritat:** Mittel
 **App:** API
 **Aufwand:** 10-14h
-**Status:** Open
+**Status:** ✅ Done
 
 ---
 

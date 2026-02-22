@@ -21,8 +21,16 @@ public class User
 
     public Profile? Profile { get; set; }
     public CreditWallet? Wallet { get; set; }
+    public TwoFactorAuth? TwoFactorAuth { get; set; }
     public ICollection<Content> Contents { get; set; } = [];
     public ICollection<Message> SentMessages { get; set; } = [];
     public ICollection<Purchase> Purchases { get; set; } = [];
     public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
+    public ICollection<Like> Likes { get; set; } = [];
+    public ICollection<Comment> Comments { get; set; } = [];
+    public ICollection<Follow> Followers { get; set; } = [];
+    public ICollection<Follow> Following { get; set; } = [];
+    public ICollection<Notification> Notifications { get; set; } = [];
+    public ICollection<Favorite> Favorites { get; set; } = [];
+    public ICollection<Subscription> Subscriptions { get; set; } = [];
 }

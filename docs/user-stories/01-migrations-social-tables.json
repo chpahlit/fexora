@@ -1,0 +1,57 @@
+[
+  {
+    "ticket": "FEXORA-022",
+    "description": "EF Core Migration: Social Features Tables (likes, comments, follows, shares, tags, content_tags, trending_snapshots, notifications, favorites)",
+    "steps": [
+      "Add entity classes for Like, Comment, Follow, Share, Tag, ContentTag, TrendingSnapshot, Notification, Favorite to Fexora.Core/Entities",
+      "Configure relationships and indexes in FexoraDbContext",
+      "Create EF Core migration: dotnet ef migrations add Sprint5_SocialFeatures",
+      "Verify migration applies cleanly: dotnet ef database update (with Docker PostgreSQL running)",
+      "dotnet build succeeds without errors"
+    ],
+    "passes": false
+  },
+  {
+    "ticket": "FEXORA-022",
+    "description": "EF Core Migration: Chat & Monetization Tables (creator_chat_settings, subscription_tiers, subscriptions, subscription_tx, tips, gift_items, ppv_messages, ppv_unlocks, custom_requests)",
+    "steps": [
+      "Add entity classes for CreatorChatSettings, SubscriptionTier, Subscription, SubscriptionTransaction, Tip, GiftItem, PpvMessage, PpvUnlock, CustomRequest to Fexora.Core/Entities",
+      "Configure relationships and indexes in FexoraDbContext",
+      "Create EF Core migration: dotnet ef migrations add Sprint5_ChatMonetization",
+      "dotnet build succeeds without errors"
+    ],
+    "passes": false
+  },
+  {
+    "ticket": "FEXORA-022",
+    "description": "EF Core Migration: Referral, Promo, Blocking, Security Tables (referral_codes, referral_redemptions, promo_codes, promo_redemptions, blocked_users, two_factor_auth)",
+    "steps": [
+      "Add entity classes for ReferralCode, ReferralRedemption, PromoCode, PromoRedemption, BlockedUser, TwoFactorAuth to Fexora.Core/Entities",
+      "Configure relationships and indexes in FexoraDbContext",
+      "Create EF Core migration: dotnet ef migrations add Sprint5_ReferralPromoSecurity",
+      "dotnet build succeeds without errors"
+    ],
+    "passes": false
+  },
+  {
+    "ticket": "FEXORA-022",
+    "description": "EF Core Migration: Content Extensions (content_media, content_drafts, scheduled_content, dmca_reports, bundles, feed_events)",
+    "steps": [
+      "Add entity classes for ContentMedia, ContentDraft, ScheduledContent, DmcaReport, Bundle, FeedEvent to Fexora.Core/Entities",
+      "Configure relationships and indexes in FexoraDbContext",
+      "Create EF Core migration: dotnet ef migrations add Sprint5_ContentExtensions",
+      "dotnet build succeeds without errors"
+    ],
+    "passes": false
+  },
+  {
+    "ticket": "FEXORA-022",
+    "description": "Seed data: Default platform settings, default gift items, test admin user",
+    "steps": [
+      "Add seed data in FexoraDbContext.OnModelCreating or a dedicated seeder",
+      "Include: default PolicyConfig entries, default GiftItem set, Admin user (if not already seeded)",
+      "dotnet build succeeds without errors"
+    ],
+    "passes": false
+  }
+]

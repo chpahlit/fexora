@@ -1,0 +1,26 @@
+[
+  {
+    "ticket": "FEXORA-024",
+    "description": "DMCA report API endpoints with evidence upload and status tracking",
+    "steps": [
+      "Add DmcaReport entity (if not already from migration stories) with fields: reporter_id, content_id, original_url, description, evidence_urls, status (pending/reviewing/taken_down/rejected)",
+      "Add POST /dmca/report endpoint for creating reports with evidence",
+      "Add GET /dmca/:id endpoint for report details",
+      "Add POST /dmca/:id/review admin endpoint (approve takedown / reject)",
+      "Takedown sets Content.Status to TakenDown, soft-deletes storage object",
+      "dotnet build succeeds without errors"
+    ],
+    "passes": false
+  },
+  {
+    "ticket": "FEXORA-024",
+    "description": "DMCA review queue in ACP admin panel",
+    "steps": [
+      "Create [locale]/dmca/page.tsx in ACP app listing pending DMCA reports",
+      "Create [locale]/dmca/[id]/page.tsx with report detail, evidence viewer, approve/reject actions",
+      "npm run type-check succeeds",
+      "npm run build succeeds"
+    ],
+    "passes": false
+  }
+]

@@ -4,7 +4,7 @@
 **Prioritat:** Hoch
 **App:** API + ACP
 **Aufwand:** 8-12h
-**Status:** Open
+**Status:** ✅ Done
 
 ---
 

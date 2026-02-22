@@ -4,7 +4,7 @@
 **Prioritat:** Kritisch
 **App:** API
 **Aufwand:** 6-8h
-**Status:** Open
+**Status:** Done
 
 ---
 
@@ -14,20 +14,20 @@ DSGVO-Compliance fur den Orchestrator: Opt-Out respektieren, Blacklist, Consent-
 
 ## Aufgaben
 
-- [ ] **Opt-Out System:**
+- [x] **Opt-Out System:**
   - User kann Orchestrator-Aktionen opt-out
   - `scenario_enrollments.status = optout`
   - Opt-Out uber Account-Settings
   - Opt-Out uber "Nicht mehr kontaktieren" Link in Nachrichten
-- [ ] **Blacklist:**
+- [x] **Blacklist:**
   - Globale Blacklist (Admin-verwaltet)
   - User auf Blacklist erhalten KEINE Orchestrator-Aktionen
   - Automatisch: User die sich beschwert haben
-- [ ] **Consent-Prufung:**
+- [x] **Consent-Prufung:**
   - Vor jeder Orchestrator-Aktion: Consent-Flag prufen
   - Consent-Typen: Marketing, Personalisierung
   - Ohne Marketing-Consent: Keine Orchestrator-Nachrichten
-- [ ] **Compliance-Logging:**
+- [x] **Compliance-Logging:**
   - Jede Orchestrator-Aktion wird geloggt (Audit-Trail)
   - Consent-Status zum Zeitpunkt der Aktion speichern
   - Export-Fahigkeit fur Behorden-Anfragen

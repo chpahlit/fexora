@@ -132,6 +132,120 @@ namespace Fexora.Infrastructure.Migrations
                     b.ToTable("AuditLogs");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.BlockedUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BlockedId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BlockerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlockedId");
+
+                    b.HasIndex("BlockerId", "BlockedId")
+                        .IsUnique();
+
+                    b.ToTable("BlockedUsers");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Bundle", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int>("DiscountPercent")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("PriceCredits")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Bundles");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.BundleContent", b =>
+                {
+                    b.Property<Guid>("BundleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ContentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("BundleId", "ContentId");
+
+                    b.HasIndex("ContentId");
+
+                    b.ToTable("BundleContents");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ContentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("ContentId", "ParentId", "CreatedAt");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.Content", b =>
                 {
                     b.Property<Guid>("Id")
@@ -182,6 +296,85 @@ namespace Fexora.Infrastructure.Migrations
                     b.ToTable("Contents");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.ContentMedia", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ContentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("FileSizeBytes")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("MediaType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ThumbnailUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContentId", "SortOrder");
+
+                    b.ToTable("ContentMedia");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.ContentTag", b =>
+                {
+                    b.Property<Guid>("ContentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ContentId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ContentTags");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.CreatorChatSettings", b =>
+                {
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("AllowFreeMessages")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("AutoReplyEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("AutoReplyMessage")
+                        .HasColumnType("text");
+
+                    b.Property<int>("FreeMessagesPerDay")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MessagePriceCredits")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("CreatorId");
+
+                    b.ToTable("CreatorChatSettings");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.CreditTransaction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -227,6 +420,250 @@ namespace Fexora.Infrastructure.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("CreditWallets");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.CustomRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeadlineAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeliveredContentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("EscrowCredits")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PriceCredits")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("RequesterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeliveredContentId");
+
+                    b.HasIndex("RequesterId");
+
+                    b.HasIndex("CreatorId", "Status");
+
+                    b.ToTable("CustomRequests");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.DmcaReport", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ContentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EvidenceUrlsJson")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OriginalUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ReporterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ReviewComment")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("ReviewedById")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContentId");
+
+                    b.HasIndex("ReporterId");
+
+                    b.HasIndex("ReviewedById");
+
+                    b.HasIndex("Status");
+
+                    b.ToTable("DmcaReports");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Favorite", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ContentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContentId");
+
+                    b.HasIndex("UserId", "ContentId")
+                        .IsUnique();
+
+                    b.ToTable("Favorites");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.FeedEvent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Score")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "CreatedAt");
+
+                    b.ToTable("FeedEvents");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Follow", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("FolloweeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FollowerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FolloweeId");
+
+                    b.HasIndex("FollowerId", "FolloweeId")
+                        .IsUnique();
+
+                    b.ToTable("Follows");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.GiftItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("IconUrl")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PriceCredits")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SortOrder");
+
+                    b.ToTable("GiftItems");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Like", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CommentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ContentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("ContentId");
+
+                    b.HasIndex("UserId", "CommentId")
+                        .IsUnique()
+                        .HasFilter("\"CommentId\" IS NOT NULL");
+
+                    b.HasIndex("UserId", "ContentId")
+                        .IsUnique()
+                        .HasFilter("\"ContentId\" IS NOT NULL");
+
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Fexora.Core.Entities.Message", b =>
@@ -322,6 +759,84 @@ namespace Fexora.Infrastructure.Migrations
                     b.ToTable("ModeratorCompensations");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("EntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("EntityType")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ReadAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActorId");
+
+                    b.HasIndex("UserId", "ReadAt", "CreatedAt");
+
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.PasswordResetToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExpiresAt");
+
+                    b.HasIndex("Token")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PasswordResetTokens");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.PayoutRecord", b =>
                 {
                     b.Property<Guid>("Id")
@@ -397,6 +912,57 @@ namespace Fexora.Infrastructure.Migrations
                     b.ToTable("PolicyConfigs");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.PpvMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PreviewText")
+                        .HasColumnType("text");
+
+                    b.Property<int>("PriceCredits")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageId")
+                        .IsUnique();
+
+                    b.ToTable("PpvMessages");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.PpvUnlock", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("PaidCredits")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("PpvMessageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UnlockedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("PpvMessageId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("PpvUnlocks");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.Profile", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -436,6 +1002,74 @@ namespace Fexora.Infrastructure.Migrations
                     b.ToTable("Profiles");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.PromoCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("CurrentRedemptions")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DiscountPercent")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("MaxRedemptions")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("PromoCodes");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.PromoRedemption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("DiscountAppliedCredits")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("PromoCodeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("RedeemedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PromoCodeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PromoRedemptions");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.Purchase", b =>
                 {
                     b.Property<Guid>("Id")
@@ -469,6 +1103,72 @@ namespace Fexora.Infrastructure.Migrations
                     b.HasIndex("CreatedAt");
 
                     b.ToTable("Purchases");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.ReferralCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("MaxRedemptions")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RewardCredits")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ReferralCodes");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.ReferralRedemption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("CreditsBonusReferred")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CreditsBonusReferrer")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("RedeemedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("RedeemedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ReferralCodeId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RedeemedByUserId")
+                        .IsUnique();
+
+                    b.HasIndex("ReferralCodeId");
+
+                    b.ToTable("ReferralRedemptions");
                 });
 
             modelBuilder.Entity("Fexora.Core.Entities.RefreshToken", b =>
@@ -563,6 +1263,160 @@ namespace Fexora.Infrastructure.Migrations
                     b.ToTable("Reports");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.ScheduledContent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ContentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("ScheduledAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContentId")
+                        .IsUnique();
+
+                    b.HasIndex("ScheduledAt", "IsPublished");
+
+                    b.ToTable("ScheduledContents");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Share", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ContentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Shares");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Subscription", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CancelledAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CurrentPeriodEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ExternalId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("TierId");
+
+                    b.HasIndex("UserId", "CreatorId", "Status");
+
+                    b.ToTable("Subscriptions");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.SubscriptionTier", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PriceCreditsMonthly")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal?>("PriceEurMonthly")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId", "SortOrder");
+
+                    b.ToTable("SubscriptionTiers");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Tag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Tags");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.Thread", b =>
                 {
                     b.Property<Guid>("Id")
@@ -592,6 +1446,98 @@ namespace Fexora.Infrastructure.Migrations
                     b.HasIndex("UserBId");
 
                     b.ToTable("Threads");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Tip", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AmountCredits")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("RecipientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ThreadId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.HasIndex("ThreadId");
+
+                    b.ToTable("Tips");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.TrendingSnapshot", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("EntityType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Period")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Score")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("SnapshotDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityType", "Period", "SnapshotDate");
+
+                    b.ToTable("TrendingSnapshots");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.TwoFactorAuth", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("BackupCodesJson")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("EnabledAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecretEncrypted")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("TwoFactorAuths");
                 });
 
             modelBuilder.Entity("Fexora.Core.Entities.User", b =>
@@ -691,6 +1637,81 @@ namespace Fexora.Infrastructure.Migrations
                     b.Navigation("Actor");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.BlockedUser", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "Blocked")
+                        .WithMany()
+                        .HasForeignKey("BlockedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.User", "Blocker")
+                        .WithMany()
+                        .HasForeignKey("BlockerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blocked");
+
+                    b.Navigation("Blocker");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Bundle", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.BundleContent", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.Bundle", "Bundle")
+                        .WithMany("Contents")
+                        .HasForeignKey("BundleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.Content", "Content")
+                        .WithMany()
+                        .HasForeignKey("ContentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bundle");
+
+                    b.Navigation("Content");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Comment", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.Content", "Content")
+                        .WithMany("Comments")
+                        .HasForeignKey("ContentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.Comment", "Parent")
+                        .WithMany("Replies")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Content");
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.Content", b =>
                 {
                     b.HasOne("Fexora.Core.Entities.User", "Owner")
@@ -700,6 +1721,47 @@ namespace Fexora.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.ContentMedia", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.Content", "Content")
+                        .WithMany("Media")
+                        .HasForeignKey("ContentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Content");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.ContentTag", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.Content", "Content")
+                        .WithMany("Tags")
+                        .HasForeignKey("ContentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.Tag", "Tag")
+                        .WithMany("ContentTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Content");
+
+                    b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.CreatorChatSettings", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "Creator")
+                        .WithOne()
+                        .HasForeignKey("Fexora.Core.Entities.CreatorChatSettings", "CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("Fexora.Core.Entities.CreditTransaction", b =>
@@ -720,6 +1782,132 @@ namespace Fexora.Infrastructure.Migrations
                         .HasForeignKey("Fexora.Core.Entities.CreditWallet", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.CustomRequest", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.Content", "DeliveredContent")
+                        .WithMany()
+                        .HasForeignKey("DeliveredContentId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Fexora.Core.Entities.User", "Requester")
+                        .WithMany()
+                        .HasForeignKey("RequesterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("DeliveredContent");
+
+                    b.Navigation("Requester");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.DmcaReport", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.Content", "Content")
+                        .WithMany()
+                        .HasForeignKey("ContentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.User", "Reporter")
+                        .WithMany()
+                        .HasForeignKey("ReporterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.User", "ReviewedBy")
+                        .WithMany()
+                        .HasForeignKey("ReviewedById")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Content");
+
+                    b.Navigation("Reporter");
+
+                    b.Navigation("ReviewedBy");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Favorite", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.Content", "Content")
+                        .WithMany("Favorites")
+                        .HasForeignKey("ContentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithMany("Favorites")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Content");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.FeedEvent", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Follow", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "Followee")
+                        .WithMany("Followers")
+                        .HasForeignKey("FolloweeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.User", "Follower")
+                        .WithMany("Following")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Followee");
+
+                    b.Navigation("Follower");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Like", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.Comment", "Comment")
+                        .WithMany("Likes")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Fexora.Core.Entities.Content", "Content")
+                        .WithMany("Likes")
+                        .HasForeignKey("ContentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithMany("Likes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Content");
 
                     b.Navigation("User");
                 });
@@ -754,6 +1942,35 @@ namespace Fexora.Infrastructure.Migrations
                     b.Navigation("Moderator");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.Notification", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "Actor")
+                        .WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Actor");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.PasswordResetToken", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.PayoutRecord", b =>
                 {
                     b.HasOne("Fexora.Core.Entities.User", "User")
@@ -775,6 +1992,36 @@ namespace Fexora.Infrastructure.Migrations
                     b.Navigation("UpdatedBy");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.PpvMessage", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.Message", "Message")
+                        .WithOne()
+                        .HasForeignKey("Fexora.Core.Entities.PpvMessage", "MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.PpvUnlock", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.PpvMessage", "PpvMessage")
+                        .WithMany("Unlocks")
+                        .HasForeignKey("PpvMessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("PpvMessage");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.Profile", b =>
                 {
                     b.HasOne("Fexora.Core.Entities.User", "User")
@@ -782,6 +2029,36 @@ namespace Fexora.Infrastructure.Migrations
                         .HasForeignKey("Fexora.Core.Entities.Profile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.PromoCode", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.PromoRedemption", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.PromoCode", "PromoCode")
+                        .WithMany("Redemptions")
+                        .HasForeignKey("PromoCodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("PromoCode");
 
                     b.Navigation("User");
                 });
@@ -803,6 +2080,36 @@ namespace Fexora.Infrastructure.Migrations
                     b.Navigation("Buyer");
 
                     b.Navigation("Content");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.ReferralCode", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.ReferralRedemption", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "RedeemedByUser")
+                        .WithMany()
+                        .HasForeignKey("RedeemedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.ReferralCode", "ReferralCode")
+                        .WithMany("Redemptions")
+                        .HasForeignKey("ReferralCodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RedeemedByUser");
+
+                    b.Navigation("ReferralCode");
                 });
 
             modelBuilder.Entity("Fexora.Core.Entities.RefreshToken", b =>
@@ -848,6 +2155,74 @@ namespace Fexora.Infrastructure.Migrations
                     b.Navigation("TargetUser");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.ScheduledContent", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.Content", "Content")
+                        .WithOne()
+                        .HasForeignKey("Fexora.Core.Entities.ScheduledContent", "ContentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Content");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Share", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.Content", "Content")
+                        .WithMany("Shares")
+                        .HasForeignKey("ContentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Content");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Subscription", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.SubscriptionTier", "Tier")
+                        .WithMany("Subscriptions")
+                        .HasForeignKey("TierId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithMany("Subscriptions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Tier");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.SubscriptionTier", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.Thread", b =>
                 {
                     b.HasOne("Fexora.Core.Entities.User", "AssignedModerator")
@@ -874,19 +2249,105 @@ namespace Fexora.Infrastructure.Migrations
                     b.Navigation("UserB");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.Tip", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "Recipient")
+                        .WithMany()
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Fexora.Core.Entities.Thread", "Thread")
+                        .WithMany()
+                        .HasForeignKey("ThreadId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
+
+                    b.Navigation("Thread");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.TwoFactorAuth", b =>
+                {
+                    b.HasOne("Fexora.Core.Entities.User", "User")
+                        .WithOne("TwoFactorAuth")
+                        .HasForeignKey("Fexora.Core.Entities.TwoFactorAuth", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.Agency", b =>
                 {
                     b.Navigation("Moderators");
                 });
 
+            modelBuilder.Entity("Fexora.Core.Entities.Bundle", b =>
+                {
+                    b.Navigation("Contents");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Comment", b =>
+                {
+                    b.Navigation("Likes");
+
+                    b.Navigation("Replies");
+                });
+
             modelBuilder.Entity("Fexora.Core.Entities.Content", b =>
                 {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Favorites");
+
+                    b.Navigation("Likes");
+
+                    b.Navigation("Media");
+
                     b.Navigation("Purchases");
+
+                    b.Navigation("Shares");
+
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("Fexora.Core.Entities.CreditWallet", b =>
                 {
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.PpvMessage", b =>
+                {
+                    b.Navigation("Unlocks");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.PromoCode", b =>
+                {
+                    b.Navigation("Redemptions");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.ReferralCode", b =>
+                {
+                    b.Navigation("Redemptions");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.SubscriptionTier", b =>
+                {
+                    b.Navigation("Subscriptions");
+                });
+
+            modelBuilder.Entity("Fexora.Core.Entities.Tag", b =>
+                {
+                    b.Navigation("ContentTags");
                 });
 
             modelBuilder.Entity("Fexora.Core.Entities.Thread", b =>
@@ -896,7 +2357,19 @@ namespace Fexora.Infrastructure.Migrations
 
             modelBuilder.Entity("Fexora.Core.Entities.User", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Contents");
+
+                    b.Navigation("Favorites");
+
+                    b.Navigation("Followers");
+
+                    b.Navigation("Following");
+
+                    b.Navigation("Likes");
+
+                    b.Navigation("Notifications");
 
                     b.Navigation("Profile");
 
@@ -905,6 +2378,10 @@ namespace Fexora.Infrastructure.Migrations
                     b.Navigation("RefreshTokens");
 
                     b.Navigation("SentMessages");
+
+                    b.Navigation("Subscriptions");
+
+                    b.Navigation("TwoFactorAuth");
 
                     b.Navigation("Wallet");
                 });

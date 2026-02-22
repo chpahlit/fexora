@@ -51,7 +51,22 @@
     "referralCode": "Referral code (optional)",
     "twoFactor": "Two-Factor Authentication",
     "twoFactorCode": "Enter 2FA code",
-    "backupCodes": "Backup codes"
+    "backupCodes": "Backup codes",
+    "invalidEmail": "Please enter a valid email address",
+    "checkEmail": "Email sent",
+    "resetEmailSent": "If an account with this email exists, we've sent you a reset link.",
+    "backToLogin": "Back to sign in",
+    "forgotPasswordDescription": "Enter your email address and we'll send you a link to reset your password.",
+    "sendResetLink": "Send link",
+    "invalidToken": "Invalid link",
+    "invalidTokenDescription": "This link is invalid or has expired.",
+    "requestNewLink": "Request a new link",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "passwordsMismatch": "Passwords do not match",
+    "passwordResetSuccess": "Password changed successfully",
+    "redirectingToLogin": "You will be redirected to sign in shortly...",
+    "newPassword": "New password",
+    "newPasswordDescription": "Enter your new password."
   },
   "content": {
     "upload": "Upload",

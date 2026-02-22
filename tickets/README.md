@@ -17,11 +17,11 @@ Alle Tickets abgeleitet aus dem [PROJEKTPLAN.md](../PROJEKTPLAN.md).
 | [FEXORA-003](FEXORA-003.md) | Next.js Apps scaffolden | Web/ACP/Mod | ✅ Done |
 | [FEXORA-004](FEXORA-004.md) | Shared Packages anlegen | Packages | ✅ Done |
 | [FEXORA-005](FEXORA-005.md) | Docker Compose Dev-Umgebung | DevOps | ✅ Done |
-| [FEXORA-006](FEXORA-006.md) | CI/CD Pipeline (GitHub Actions) | DevOps | Open |
+| [FEXORA-006](FEXORA-006.md) | CI/CD Pipeline (GitHub Actions) | DevOps | ✅ Done |
 | [FEXORA-007](FEXORA-007.md) | Design Tokens & shadcn/ui Theme | Web/ACP/Mod | ✅ Done |
 | [FEXORA-008](FEXORA-008.md) | i18n Setup (next-intl) | Web/ACP/Mod | ✅ Done |
-| [FEXORA-009](FEXORA-009.md) | Monitoring Setup (Sentry + OpenTelemetry) | Alle | Open |
-| [FEXORA-010](FEXORA-010.md) | DB-Index-Strategie in initialer Migration | API | Open |
+| [FEXORA-009](FEXORA-009.md) | Monitoring Setup (Sentry + OpenTelemetry) | Alle | ✅ Done |
+| [FEXORA-010](FEXORA-010.md) | DB-Index-Strategie in initialer Migration | API | ✅ Done |
 
 ---
 
@@ -40,10 +40,10 @@ Alle Tickets abgeleitet aus dem [PROJEKTPLAN.md](../PROJEKTPLAN.md).
 | [FEXORA-019](FEXORA-019.md) | Likes & Kommentare UI | Web | ✅ Done |
 | [FEXORA-020](FEXORA-020.md) | Admin Review-Queue (Basis) | ACP | ✅ Done |
 | [FEXORA-021](FEXORA-021.md) | Content-Lebenszyklus (Status-Maschine) | API | ✅ Done |
-| [FEXORA-022](FEXORA-022.md) | EF Core Migrations (Core + Social Tables) | API | Open |
-| [FEXORA-023](FEXORA-023.md) | API Client generieren (NSwag + React Query) | Packages | Open |
-| [FEXORA-024](FEXORA-024.md) | DMCA-System (Basis) | API + ACP | Open |
-| [FEXORA-025](FEXORA-025.md) | Account Recovery (Passwort-Reset) | API + Web | Open |
+| [FEXORA-022](FEXORA-022.md) | EF Core Migrations (Core + Social Tables) | API | ✅ Done |
+| [FEXORA-023](FEXORA-023.md) | API Client generieren (NSwag + React Query) | Packages | ✅ Done |
+| [FEXORA-024](FEXORA-024.md) | DMCA-System (Basis) | API + ACP | ✅ Done |
+| [FEXORA-025](FEXORA-025.md) | Account Recovery (Passwort-Reset) | API + Web | ✅ Done |
 
 ---
 
@@ -118,13 +118,13 @@ Alle Tickets abgeleitet aus dem [PROJEKTPLAN.md](../PROJEKTPLAN.md).
 
 | Ticket | Titel | App | Status |
 |--------|-------|-----|--------|
-| [FEXORA-072](FEXORA-072.md) | Orchestrator Background Service | API | Open |
-| [FEXORA-073](FEXORA-073.md) | Szenario-Engine (Rule-Engine) | API | Open |
-| [FEXORA-074](FEXORA-074.md) | Execution Workers | API | Open |
-| [FEXORA-075](FEXORA-075.md) | Rate Limits & Quiet Hours (Orchestrator) | API | Open |
-| [FEXORA-076](FEXORA-076.md) | Template-System (Handlebars) | API | Open |
-| [FEXORA-077](FEXORA-077.md) | Targeting-Engine (Segment-Builder) | API | Open |
-| [FEXORA-078](FEXORA-078.md) | Compliance (Opt-Out, DSGVO-Consent) | API | Open |
+| [FEXORA-072](FEXORA-072.md) | Orchestrator Background Service | API | ✅ Done |
+| [FEXORA-073](FEXORA-073.md) | Szenario-Engine (Rule-Engine) | API | ✅ Done |
+| [FEXORA-074](FEXORA-074.md) | Execution Workers | API | ✅ Done |
+| [FEXORA-075](FEXORA-075.md) | Rate Limits & Quiet Hours (Orchestrator) | API | ✅ Done |
+| [FEXORA-076](FEXORA-076.md) | Template-System (Handlebars) | API | ✅ Done |
+| [FEXORA-077](FEXORA-077.md) | Targeting-Engine (Segment-Builder) | API | ✅ Done |
+| [FEXORA-078](FEXORA-078.md) | Compliance (Opt-Out, DSGVO-Consent) | API | ✅ Done |
 
 ---
 
@@ -132,14 +132,14 @@ Alle Tickets abgeleitet aus dem [PROJEKTPLAN.md](../PROJEKTPLAN.md).
 
 | Ticket | Titel | App | Status |
 |--------|-------|-----|--------|
-| [FEXORA-079](FEXORA-079.md) | Broadcast-System | API | Open |
-| [FEXORA-080](FEXORA-080.md) | A/B-Testing | API | Open |
-| [FEXORA-081](FEXORA-081.md) | Szenario-Builder UI | ACP | Open |
-| [FEXORA-082](FEXORA-082.md) | Segment-Builder UI | ACP | Open |
-| [FEXORA-083](FEXORA-083.md) | Broadcast-Composer UI | ACP | Open |
-| [FEXORA-084](FEXORA-084.md) | Orchestrator-Dashboard | ACP | Open |
-| [FEXORA-085](FEXORA-085.md) | Attribution-Anbindung (Orchestrator) | API + ACP | Open |
-| [FEXORA-086](FEXORA-086.md) | Load-Tests & Hardening | Alle | Open |
+| [FEXORA-079](FEXORA-079.md) | Broadcast-System | API | ✅ Done |
+| [FEXORA-080](FEXORA-080.md) | A/B-Testing | API | ✅ Done |
+| [FEXORA-081](FEXORA-081.md) | Szenario-Builder UI | ACP | ✅ Done |
+| [FEXORA-082](FEXORA-082.md) | Segment-Builder UI | ACP | ✅ Done |
+| [FEXORA-083](FEXORA-083.md) | Broadcast-Composer UI | ACP | ✅ Done |
+| [FEXORA-084](FEXORA-084.md) | Orchestrator-Dashboard | ACP | ✅ Done |
+| [FEXORA-085](FEXORA-085.md) | Attribution-Anbindung (Orchestrator) | API + ACP | ✅ Done |
+| [FEXORA-086](FEXORA-086.md) | Load-Tests & Hardening | Alle | ✅ Done |
 
 ---
 
@@ -147,8 +147,23 @@ Alle Tickets abgeleitet aus dem [PROJEKTPLAN.md](../PROJEKTPLAN.md).
 
 | Ticket | Titel | App | Status |
 |--------|-------|-----|--------|
-| [FEXORA-087](FEXORA-087.md) | Web Push Notifications | Web + API | Open |
-| [FEXORA-088](FEXORA-088.md) | Social Login (Google, Apple) | API + Web | Open |
+| [FEXORA-087](FEXORA-087.md) | Web Push Notifications | Web + API | ✅ Done |
+| [FEXORA-088](FEXORA-088.md) | Social Login (Google, Apple) | API + Web | ✅ Done |
+
+---
+
+## Phase 3a: Security & Hardening
+
+| Ticket | Titel | App | Status |
+|--------|-------|-----|--------|
+| [FEXORA-089](FEXORA-089.md) | Global Exception Middleware | API | ✅ Done |
+| [FEXORA-090](FEXORA-090.md) | API Rate Limiting Middleware | API | ✅ Done |
+| [FEXORA-091](FEXORA-091.md) | Security Headers Middleware | API | ✅ Done |
+| [FEXORA-092](FEXORA-092.md) | Environment Validation | API | ✅ Done |
+| [FEXORA-093](FEXORA-093.md) | Brute-Force Protection / Account Lockout | API | ✅ Done |
+| [FEXORA-094](FEXORA-094.md) | Shared Types Sync (@fexora/shared) | Packages | ✅ Done |
+| [FEXORA-095](FEXORA-095.md) | Moderator-App Completion (Audit + Analytics) | Moderator | ✅ Done |
+| [FEXORA-096](FEXORA-096.md) | Test Infrastructure & Unit Tests | Alle | ✅ Done |
 
 ---
 

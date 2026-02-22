@@ -4,7 +4,7 @@
 **Prioritat:** Kritisch
 **App:** Alle
 **Aufwand:** 16-22h
-**Status:** Open
+**Status:** ✅ Done
 
 ---
 

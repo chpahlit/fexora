@@ -18,4 +18,10 @@ public class Content
 
     public User Owner { get; set; } = null!;
     public ICollection<Purchase> Purchases { get; set; } = [];
+    public ICollection<Like> Likes { get; set; } = [];
+    public ICollection<Comment> Comments { get; set; } = [];
+    public ICollection<Share> Shares { get; set; } = [];
+    public ICollection<ContentTag> Tags { get; set; } = [];
+    public ICollection<ContentMedia> Media { get; set; } = [];
+    public ICollection<Favorite> Favorites { get; set; } = [];
 }

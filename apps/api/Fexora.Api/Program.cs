@@ -1,4 +1,5 @@
 using System.Text;
+using Fexora.Api.Middleware;
 using Fexora.Core.Entities;
 using Fexora.Core.Enums;
 using Fexora.Core.Interfaces;
@@ -7,8 +8,43 @@ using Fexora.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using Scalar.AspNetCore;
+using Serilog;
+
+// Serilog bootstrap
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console(new Serilog.Formatting.Json.JsonFormatter())
+    .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Serilog
+builder.Host.UseSerilog((context, services, configuration) => configuration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services)
+    .WriteTo.Console(new Serilog.Formatting.Json.JsonFormatter())
+    .Enrich.FromLogContext()
+    .Enrich.WithProperty("Application", "Fexora.Api"));
+
+// Sentry
+builder.WebHost.UseSentry(o =>
+{
+    o.Dsn = builder.Configuration["Sentry:Dsn"] ?? "";
+    o.TracesSampleRate = builder.Configuration.GetValue("Sentry:TracesSampleRate", 0.2);
+    o.SendDefaultPii = false;
+    o.Environment = builder.Environment.EnvironmentName;
+});
+
+// OpenTelemetry
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(r => r.AddService("Fexora.Api"))
+    .WithTracing(tracing => tracing
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation()
+        .AddConsoleExporter());
 
 // Database
 builder.Services.AddDbContext<FexoraDbContext>(options =>
@@ -101,9 +137,40 @@ builder.Services.AddScoped<ICompensationService, CompensationService>();
 builder.Services.AddScoped<IAgencyService, AgencyService>();
 builder.Services.AddScoped<IGdprService, GdprService>();
 builder.Services.AddSingleton<IWatermarkService, WatermarkService>();
+builder.Services.AddScoped<IDmcaService, DmcaService>();
+builder.Services.AddHttpClient<IEmailService, ResendEmailService>();
+builder.Services.AddScoped<PasswordResetService>();
+builder.Services.AddScoped<IPushService, PushService>();
+builder.Services.AddScoped<ISocialAuthService, SocialAuthService>();
+builder.Services.AddScoped<LoginProtectionService>();
+
+// Orchestrator Services
+builder.Services.AddScoped<IScenarioService, ScenarioService>();
+builder.Services.AddScoped<ITemplateService, TemplateService>();
+builder.Services.AddScoped<ITargetingService, TargetingService>();
+builder.Services.AddScoped<IComplianceService, ComplianceService>();
+builder.Services.AddSingleton<IRateLimitService, RateLimitService>();
+builder.Services.AddScoped<IActionWorker, Fexora.Orchestrator.Workers.VisitWorker>();
+builder.Services.AddScoped<IActionWorker, Fexora.Orchestrator.Workers.MessageWorker>();
+builder.Services.AddScoped<IActionWorker, Fexora.Orchestrator.Workers.FollowWorker>();
+builder.Services.AddScoped<IActionWorker, Fexora.Orchestrator.Workers.LikeWorker>();
+builder.Services.AddHostedService<Fexora.Orchestrator.OrchestratorService>();
+builder.Services.AddScoped<IBroadcastService, BroadcastService>();
 
 // OpenAPI
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer((document, context, _) =>
+    {
+        document.Info = new()
+        {
+            Title = "Fexora API",
+            Version = "v1",
+            Description = "Fexora Platform API"
+        };
+        return Task.CompletedTask;
+    });
+});
 
 // Controllers
 builder.Services.AddControllers();
@@ -113,12 +180,20 @@ builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Default") ?? "")
     .AddRedis(builder.Configuration["Redis:Connection"] ?? "localhost:6500");
 
+// Validate configuration at startup
+StartupValidator.ValidateConfiguration(builder.Configuration, builder.Environment);
+
 var app = builder.Build();
 
-// Middleware Pipeline
+// Middleware Pipeline (order matters!)
+app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseMiddleware<SecurityHeadersMiddleware>();
+app.UseMiddleware<RequestValidationMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 
     // Auto-migrate in development
     using var scope = app.Services.CreateScope();
@@ -196,14 +271,21 @@ if (app.Environment.IsDevelopment())
     }
 }
 
+app.UseSerilogRequestLogging();
+app.UseSentryTracing();
 app.UseCors();
 app.UseAuthentication();
+app.UseMiddleware<RateLimitingMiddleware>();
 app.UseAuthorization();
 
 // Map endpoints
 app.MapControllers();
 app.MapHub<Fexora.Api.Hubs.ChatHub>("/hubs/chat");
 app.MapHealthChecks("/health");
+app.MapHealthChecks("/health/ready", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    Predicate = _ => true
+});
 
 app.MapGet("/", () => new { Name = "Fexora API", Version = "0.1.0" });
 

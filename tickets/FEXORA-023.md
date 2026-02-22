@@ -4,7 +4,7 @@
 **Prioritat:** Hoch
 **App:** Packages
 **Aufwand:** 6-8h
-**Status:** Open
+**Status:** Done
 
 ---
 

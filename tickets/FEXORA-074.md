@@ -4,7 +4,7 @@
 **Prioritat:** Hoch
 **App:** API
 **Aufwand:** 12-16h
-**Status:** Open
+**Status:** Done
 
 ---
 
@@ -14,27 +14,27 @@ Idempotente Worker fur die Ausfuhrung von Orchestrator-Aktionen: visit, message,
 
 ## Aufgaben
 
-- [ ] **Worker-Architektur:**
+- [x] **Worker-Architektur:**
   - Interface: `IActionWorker` mit Execute(step, userId)
   - Pro Action-Type eine Worker-Implementierung
   - Idempotency: Prufung ob Aktion bereits ausgefuhrt
   - Ergebnis-Logging in `scenario_executions`
-- [ ] **VisitWorker:**
+- [x] **VisitWorker:**
   - Feed-Event erstellen (type=visit)
   - Notification an User (optional, konfigurierbar)
-- [ ] **MessageWorker:**
+- [x] **MessageWorker:**
   - Nachricht im Namen des Sender-Profils senden
   - Template-Variablen ersetzen ({{username}}, etc.)
   - Uber bestehende Chat-Infrastruktur (SignalR + DB)
-- [ ] **FollowWorker:**
+- [x] **FollowWorker:**
   - Follow-Aktion ausfuhren
   - Notification an User
   - Duplikat-Check (bereits gefolgt?)
-- [ ] **LikeWorker:**
+- [x] **LikeWorker:**
   - Content liken
   - Notification an Content-Owner
   - Duplikat-Check
-- [ ] **Error-Handling:**
+- [x] **Error-Handling:**
   - Retry mit Exponential Backoff (max. 3 Versuche)
   - Nach 3 Fehlern: result=fail, in DLQ
   - Skip bei blockierten Usern

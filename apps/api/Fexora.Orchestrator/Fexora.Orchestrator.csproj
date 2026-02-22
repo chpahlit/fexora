@@ -1,7 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\Fexora.Core\Fexora.Core.csproj" />
+    <ProjectReference Include="..\Fexora.Infrastructure\Fexora.Infrastructure.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
