@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { AppShell } from "@/components/app-shell";
 
 interface WatermarkResult {
   found: boolean;
@@ -73,8 +74,8 @@ export default function WatermarkPage() {
   }
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-6xl space-y-6">
+    <AppShell>
+      <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold">Watermark & Leak Detection</h1>
           <p className="text-sm text-muted-foreground">
@@ -236,6 +237,6 @@ export default function WatermarkPage() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </AppShell>
   );
 }

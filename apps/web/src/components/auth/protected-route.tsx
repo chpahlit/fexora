@@ -3,6 +3,7 @@
 import { useAuth } from "@/lib/auth";
 import { useRouter } from "@/i18n/navigation";
 import { useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -30,7 +31,11 @@ export function ProtectedRoute({ children, roles }: ProtectedRouteProps) {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <div className="space-y-4 w-full max-w-md">
+          <Skeleton className="h-8 w-3/4 mx-auto" />
+          <Skeleton className="h-4 w-1/2 mx-auto" />
+          <Skeleton className="h-64 w-full rounded-lg" />
+        </div>
       </div>
     );
   }

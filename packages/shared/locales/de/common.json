@@ -36,7 +36,10 @@
     "settings": "Einstellungen",
     "wallet": "Wallet",
     "favorites": "Favoriten",
-    "creator": "Creator-Dashboard"
+    "creator": "Creator-Dashboard",
+    "search": "Suche",
+    "trending": "Trends",
+    "purchases": "Meine Käufe"
   },
   "auth": {
     "email": "E-Mail-Adresse",
@@ -66,7 +69,12 @@
     "passwordResetSuccess": "Passwort erfolgreich geändert",
     "redirectingToLogin": "Du wirst gleich zur Anmeldung weitergeleitet...",
     "newPassword": "Neues Passwort",
-    "newPasswordDescription": "Gib dein neues Passwort ein."
+    "newPasswordDescription": "Gib dein neues Passwort ein.",
+    "continueWithGoogle": "Weiter mit Google",
+    "continueWithApple": "Weiter mit Apple",
+    "connecting": "Verbinden...",
+    "popupBlocked": "Popup wurde blockiert. Bitte erlaube Popups für diese Seite.",
+    "socialLoginError": "Social Login fehlgeschlagen. Bitte versuche es erneut."
   },
   "content": {
     "upload": "Hochladen",
@@ -102,7 +110,11 @@
     "chatPricing": "Chat-Preis",
     "freeChat": "Kostenloser Chat",
     "unlockChat": "Chat freischalten",
-    "perMessage": "Pro Nachricht"
+    "perMessage": "Pro Nachricht",
+    "ppvLockedMessage": "Dieser Inhalt ist kostenpflichtig",
+    "ppvMediaLocked": "Medieninhalt gesperrt",
+    "ppvPricePlaceholder": "Preis",
+    "ppvMessagePlaceholder": "PPV-Nachricht schreiben..."
   },
   "creator": {
     "dashboard": "Dashboard",
@@ -128,6 +140,68 @@
     "subscribed": "Abonniert",
     "editProfile": "Profil bearbeiten",
     "verified": "Verifiziert"
+  },
+  "purchases": {
+    "title": "Meine Käufe",
+    "description": "Alle freigeschalteten Inhalte auf einen Blick",
+    "empty": "Du hast noch keine Inhalte freigeschaltet"
+  },
+  "promo": {
+    "haveCode": "Promo-Code eingeben",
+    "placeholder": "Promo-Code"
+  },
+  "comments": {
+    "reply": "Antworten",
+    "replyPlaceholder": "Antwort schreiben...",
+    "empty": "Noch keine Kommentare"
+  },
+  "notificationSettings": {
+    "title": "Benachrichtigungseinstellungen",
+    "description": "Wähle, wie du benachrichtigt werden möchtest",
+    "email": "E-Mail",
+    "push": "Push",
+    "likes": "Likes",
+    "likesDesc": "Wenn jemand deinen Inhalt liked",
+    "comments": "Kommentare",
+    "commentsDesc": "Wenn jemand deinen Inhalt kommentiert",
+    "follows": "Neue Follower",
+    "followsDesc": "Wenn dir jemand folgt",
+    "unlocks": "Inhalt freigeschaltet",
+    "unlocksDesc": "Wenn jemand deinen kostenpflichtigen Inhalt freischaltet",
+    "mentions": "Erwähnungen",
+    "mentionsDesc": "Wenn dich jemand in einem Kommentar erwähnt",
+    "messages": "Nachrichten",
+    "messagesDesc": "Wenn du eine neue Chat-Nachricht erhältst",
+    "system": "System",
+    "systemDesc": "Plattform-Updates, Sicherheitshinweise, Auszahlungen"
+  },
+  "highlights": {
+    "title": "Highlights",
+    "new": "Neu",
+    "empty": "Keine Einträge",
+    "create": "Highlight erstellen",
+    "delete": "Highlight löschen",
+    "addContent": "Inhalt hinzufügen"
+  },
+  "push": {
+    "promptTitle": "Bleib auf dem Laufenden",
+    "promptDescription": "Aktiviere Push-Benachrichtigungen für neue Nachrichten, Likes und Content-Updates.",
+    "enable": "Aktivieren",
+    "enabling": "Wird aktiviert...",
+    "later": "Später",
+    "browserPush": "Browser Push-Benachrichtigungen",
+    "browserPushDesc": "Erhalte Echtzeit-Benachrichtigungen in deinem Browser",
+    "notSupported": "Push-Benachrichtigungen werden in diesem Browser nicht unterstützt",
+    "blocked": "Benachrichtigungen sind blockiert. Bitte aktualisiere deine Browsereinstellungen.",
+    "enabledDesc": "Du erhältst Push-Benachrichtigungen",
+    "disabledDesc": "Aktiviere für Echtzeit-Updates"
+  },
+  "scheduling": {
+    "title": "Inhaltskalender",
+    "scheduled": "geplant",
+    "noContent": "Kein Inhalt für diesen Tag geplant",
+    "upcoming": "Bevorstehend",
+    "noUpcoming": "Keine geplanten Inhalte"
   },
   "footer": {
     "terms": "AGB",

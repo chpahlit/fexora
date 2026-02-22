@@ -8,6 +8,7 @@ import { ContentCard } from "@/components/content/content-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { ContentResponse } from "@fexora/api-client";
 import type { PaginatedResponse } from "@fexora/shared";
+import { ContentGridSkeleton } from "@/components/content/content-card-skeleton";
 
 function FavoritesContent() {
   const t = useTranslations();
@@ -48,9 +49,7 @@ function FavoritesContent() {
 
         <TabsContent value="favorites">
           {favLoading ? (
-            <div className="flex justify-center py-12">
-              <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-            </div>
+            <ContentGridSkeleton count={6} />
           ) : favorites.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-4">
               {favorites.map((content) => (
@@ -66,9 +65,7 @@ function FavoritesContent() {
 
         <TabsContent value="purchased">
           {purchaseLoading ? (
-            <div className="flex justify-center py-12">
-              <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-            </div>
+            <ContentGridSkeleton count={6} />
           ) : purchases.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-4">
               {purchases.map((content) => (

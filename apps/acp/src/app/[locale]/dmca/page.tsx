@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AppShell } from "@/components/app-shell";
 
 interface DmcaReport {
   id: string;
@@ -69,6 +70,7 @@ export default function DmcaListPage() {
   }
 
   return (
+    <AppShell>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">DMCA Reports</h1>
@@ -178,5 +180,6 @@ export default function DmcaListPage() {
         </TabsContent>
       </Tabs>
     </div>
+    </AppShell>
   );
 }

@@ -11,6 +11,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { AppShell } from "@/components/app-shell";
 
 interface PlatformSetting {
   key: string;
@@ -69,6 +70,7 @@ export default function PricingPolicyPage() {
   }
 
   return (
+    <AppShell>
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Pricing & Policy</h1>
 
@@ -166,5 +168,6 @@ export default function PricingPolicyPage() {
         </TabsContent>
       </Tabs>
     </div>
+    </AppShell>
   );
 }

@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { ListSkeleton } from "@/components/ui/page-skeleton";
 
 const COIN_PACKS = [
   { amount: 100, label: "100 Coins", price: "€4.99" },
@@ -94,9 +95,7 @@ function WalletContent() {
           {t("wallet.transactions")}
         </h2>
         {txLoading ? (
-          <div className="flex justify-center py-8">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-          </div>
+          <ListSkeleton count={4} />
         ) : transactions.length > 0 ? (
           <div className="space-y-2">
             {transactions.map((tx) => (

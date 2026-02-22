@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AppShell } from "@/components/app-shell";
 
 interface Snippet {
   id: string;
@@ -53,8 +54,8 @@ export default function SnippetsPage() {
   }
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-4xl space-y-6">
+    <AppShell>
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Snippets & Templates</h1>
           <Button onClick={() => setShowCreate(!showCreate)}>
@@ -133,7 +134,7 @@ export default function SnippetsPage() {
           ))}
         </Tabs>
       </div>
-    </div>
+    </AppShell>
   );
 }
 

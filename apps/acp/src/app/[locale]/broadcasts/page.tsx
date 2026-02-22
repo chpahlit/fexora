@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { AppShell } from "@/components/app-shell";
 
 interface BroadcastVariant {
   id: string;
@@ -75,6 +76,7 @@ export default function BroadcastsPage() {
   }
 
   return (
+    <AppShell>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Broadcasts</h1>
@@ -142,5 +144,6 @@ export default function BroadcastsPage() {
         </div>
       )}
     </div>
+    </AppShell>
   );
 }

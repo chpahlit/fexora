@@ -3,6 +3,7 @@
 import { useAuth } from "@/lib/auth";
 import { useFeed } from "@fexora/api-client";
 import { ContentCard } from "@/components/content/content-card";
+import { ContentGridSkeleton } from "@/components/content/content-card-skeleton";
 
 interface ProfileContentGridProps {
   username: string;
@@ -15,11 +16,7 @@ export function ProfileContentGrid({ username }: ProfileContentGridProps) {
   const { data, isLoading } = useFeed({ page: 1, pageSize: 20 });
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center py-12">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-      </div>
-    );
+    return <ContentGridSkeleton count={6} />;
   }
 
   const contents = data?.success ? data.data?.data ?? [] : [];

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
+import { AppShell } from "@/components/app-shell";
 
 interface AuditEntry {
   id: string;
@@ -77,6 +78,7 @@ export default function AuditPage() {
   }
 
   return (
+    <AppShell>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Audit Log</h1>
@@ -188,5 +190,6 @@ export default function AuditPage() {
         </div>
       )}
     </div>
+    </AppShell>
   );
 }

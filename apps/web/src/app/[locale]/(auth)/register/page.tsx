@@ -19,6 +19,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { SocialLoginButtons } from "@/components/auth/social-login-buttons";
 
 export default function RegisterPage() {
   const t = useTranslations();
@@ -183,6 +185,15 @@ export default function RegisterPage() {
             >
               {isSubmitting ? t("common.loading") : t("common.register")}
             </Button>
+
+            <div className="flex items-center gap-3 w-full">
+              <Separator className="flex-1" />
+              <span className="text-xs text-muted-foreground">{t("common.or")}</span>
+              <Separator className="flex-1" />
+            </div>
+
+            <SocialLoginButtons />
+
             <p className="text-sm text-muted-foreground">
               {t("common.or")}{" "}
               <Link href="/login" className="text-primary hover:underline">

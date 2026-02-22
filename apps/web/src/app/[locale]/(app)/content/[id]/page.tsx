@@ -3,19 +3,21 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useContent, useUnlockContent } from "@fexora/api-client";
+import { useContent, useUnlockContent, useComments } from "@fexora/api-client";
 import { useAuth } from "@/lib/auth";
 import { Link } from "@/i18n/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { useQueryClient } from "@tanstack/react-query";
 import { ShareModal } from "@/components/content/share-modal";
 import { TipDialog } from "@/components/content/tip-dialog";
 import { ReportModal } from "@/components/report-modal";
+import { CommentThread } from "@/components/content/comment-thread";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ContentDetailPage() {
   const params = useParams<{ id: string }>();
@@ -23,17 +25,27 @@ export default function ContentDetailPage() {
   const { client, isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
   const { data, isLoading } = useContent(params.id);
+  const { data: commentsData } = useComments(params.id);
   const unlock = useUnlockContent();
-  const [comment, setComment] = useState("");
   const [isLiked, setIsLiked] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [showTip, setShowTip] = useState(false);
   const [showReport, setShowReport] = useState(false);
+  const [promoCode, setPromoCode] = useState("");
+  const [showPromo, setShowPromo] = useState(false);
 
   if (isLoading) {
     return (
-      <div className="flex justify-center py-12">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      <div className="max-w-3xl mx-auto space-y-6">
+        <div className="flex items-center gap-3">
+          <Skeleton className="h-10 w-10 rounded-full" />
+          <div className="space-y-1">
+            <Skeleton className="h-4 w-32" />
+            <Skeleton className="h-3 w-20" />
+          </div>
+        </div>
+        <Skeleton className="h-80 w-full rounded-lg" />
+        <Skeleton className="h-6 w-3/4" />
       </div>
     );
   }
@@ -52,10 +64,15 @@ export default function ContentDetailPage() {
 
   async function handleUnlock() {
     unlock.mutate(
-      { contentId: content!.id },
+      {
+        contentId: content!.id,
+        ...(promoCode.trim() ? { promoCode: promoCode.trim() } : {}),
+      },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["content", params.id] });
+          setPromoCode("");
+          setShowPromo(false);
         },
       }
     );
@@ -85,17 +102,7 @@ export default function ContentDetailPage() {
     }
   }
 
-  async function handleComment(e: React.FormEvent) {
-    e.preventDefault();
-    if (!comment.trim() || !isAuthenticated) return;
-    try {
-      await client.post(`/content/${params.id}/comments`, { body: comment });
-      setComment("");
-      queryClient.invalidateQueries({ queryKey: ["content", params.id] });
-    } catch {
-      // Ignore
-    }
-  }
+  const comments = commentsData?.success ? commentsData.data ?? [] : [];
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
@@ -144,13 +151,31 @@ export default function ContentDetailPage() {
                   <p className="text-white text-xl font-bold">
                     {content.priceCredits} {t("content.coins")}
                   </p>
+                  {showPromo && (
+                    <div className="mt-3 flex items-center gap-2">
+                      <Input
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value)}
+                        placeholder={t("promo.placeholder")}
+                        className="h-9 w-48 bg-white/90 text-foreground"
+                      />
+                    </div>
+                  )}
                   <Button
-                    className="mt-4"
+                    className="mt-3"
                     onClick={handleUnlock}
                     disabled={unlock.isPending}
                   >
                     {unlock.isPending ? t("common.loading") : t("content.unlock")}
                   </Button>
+                  {!showPromo && (
+                    <button
+                      onClick={() => setShowPromo(true)}
+                      className="mt-2 text-sm text-white/70 hover:text-white underline"
+                    >
+                      {t("promo.haveCode")}
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -220,27 +245,7 @@ export default function ContentDetailPage() {
       <Separator />
 
       {/* Comments Section */}
-      <div className="space-y-4">
-        <h2 className="font-semibold">{t("content.comment")}</h2>
-
-        {isAuthenticated && (
-          <form onSubmit={handleComment} className="flex gap-2">
-            <Input
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder={`${t("content.comment")}...`}
-              maxLength={1000}
-            />
-            <Button type="submit" disabled={!comment.trim()}>
-              {t("chat.sendMessage")}
-            </Button>
-          </form>
-        )}
-
-        <div className="text-sm text-muted-foreground text-center py-4">
-          Comments will appear here
-        </div>
-      </div>
+      <CommentThread contentId={params.id} comments={comments} />
 
       {showShare && (
         <ShareModal

@@ -36,7 +36,10 @@
     "settings": "Settings",
     "wallet": "Wallet",
     "favorites": "Favorites",
-    "creator": "Creator Dashboard"
+    "creator": "Creator Dashboard",
+    "search": "Search",
+    "trending": "Trending",
+    "purchases": "My Purchases"
   },
   "auth": {
     "email": "Email address",
@@ -66,7 +69,12 @@
     "passwordResetSuccess": "Password changed successfully",
     "redirectingToLogin": "You will be redirected to sign in shortly...",
     "newPassword": "New password",
-    "newPasswordDescription": "Enter your new password."
+    "newPasswordDescription": "Enter your new password.",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithApple": "Continue with Apple",
+    "connecting": "Connecting...",
+    "popupBlocked": "Popup was blocked. Please allow popups for this site.",
+    "socialLoginError": "Social login failed. Please try again."
   },
   "content": {
     "upload": "Upload",
@@ -102,7 +110,11 @@
     "chatPricing": "Chat pricing",
     "freeChat": "Free chat",
     "unlockChat": "Unlock chat",
-    "perMessage": "Per message"
+    "perMessage": "Per message",
+    "ppvLockedMessage": "This content is pay-per-view",
+    "ppvMediaLocked": "Media content locked",
+    "ppvPricePlaceholder": "Price",
+    "ppvMessagePlaceholder": "Write PPV message..."
   },
   "creator": {
     "dashboard": "Dashboard",
@@ -128,6 +140,68 @@
     "subscribed": "Subscribed",
     "editProfile": "Edit profile",
     "verified": "Verified"
+  },
+  "purchases": {
+    "title": "My Purchases",
+    "description": "All your unlocked content at a glance",
+    "empty": "You haven't unlocked any content yet"
+  },
+  "promo": {
+    "haveCode": "Have a promo code?",
+    "placeholder": "Promo code"
+  },
+  "comments": {
+    "reply": "Reply",
+    "replyPlaceholder": "Write a reply...",
+    "empty": "No comments yet"
+  },
+  "notificationSettings": {
+    "title": "Notification Settings",
+    "description": "Choose how you want to be notified",
+    "email": "Email",
+    "push": "Push",
+    "likes": "Likes",
+    "likesDesc": "When someone likes your content",
+    "comments": "Comments",
+    "commentsDesc": "When someone comments on your content",
+    "follows": "New Followers",
+    "followsDesc": "When someone follows you",
+    "unlocks": "Content Unlocks",
+    "unlocksDesc": "When someone unlocks your paid content",
+    "mentions": "Mentions",
+    "mentionsDesc": "When someone mentions you in a comment",
+    "messages": "Messages",
+    "messagesDesc": "When you receive a new chat message",
+    "system": "System",
+    "systemDesc": "Platform updates, security alerts, payouts"
+  },
+  "highlights": {
+    "title": "Highlights",
+    "new": "New",
+    "empty": "No items",
+    "create": "Create highlight",
+    "delete": "Delete highlight",
+    "addContent": "Add content"
+  },
+  "push": {
+    "promptTitle": "Stay in the loop",
+    "promptDescription": "Enable push notifications for new messages, likes, and content updates.",
+    "enable": "Enable",
+    "enabling": "Enabling...",
+    "later": "Later",
+    "browserPush": "Browser Push Notifications",
+    "browserPushDesc": "Receive real-time notifications in your browser",
+    "notSupported": "Push notifications are not supported in this browser",
+    "blocked": "Notifications are blocked. Please update your browser settings.",
+    "enabledDesc": "You are receiving push notifications",
+    "disabledDesc": "Enable to get real-time updates"
+  },
+  "scheduling": {
+    "title": "Content Calendar",
+    "scheduled": "scheduled",
+    "noContent": "No content scheduled for this day",
+    "upcoming": "Upcoming",
+    "noUpcoming": "No upcoming scheduled content"
   },
   "footer": {
     "terms": "Terms of Service",

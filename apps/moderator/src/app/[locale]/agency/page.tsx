@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { AppShell } from "@/components/app-shell";
 
 interface AgencyCreator {
   id: string;
@@ -106,8 +107,8 @@ export default function AgencyDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-6xl space-y-6">
+    <AppShell>
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Agency Dashboard</h1>
           <Button variant="outline" onClick={handleExport}>CSV Export</Button>
@@ -303,6 +304,6 @@ export default function AgencyDashboardPage() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </AppShell>
   );
 }

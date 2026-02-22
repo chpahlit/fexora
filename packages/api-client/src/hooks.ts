@@ -30,9 +30,14 @@ import type {
   UnlockRequest,
   UnlockResponse,
   PaginationParams,
+  CommentResponse,
+  CreateCommentRequest,
   CreateReportRequest,
   ResolveReportRequest,
   ReportResponse,
+  HighlightResponse,
+  HighlightItemResponse,
+  CreateHighlightRequest,
 } from "./types";
 
 // ── Client singleton ──────────────────────────────────
@@ -75,6 +80,10 @@ export const queryKeys = {
     list: (params?: PaginationParams & { status?: string }) =>
       ["reports", params] as const,
     byId: (id: string) => ["reports", id] as const,
+  },
+  highlights: {
+    byUser: (userId: string) => ["highlights", userId] as const,
+    items: (highlightId: string) => ["highlights", "items", highlightId] as const,
   },
 } as const;
 
@@ -299,6 +308,67 @@ export function useSubmitContent(
   });
 }
 
+// ── Comment Hooks ─────────────────────────────────────
+
+export function useComments(
+  contentId: string,
+  options?: Omit<
+    UseQueryOptions<ApiResponse<CommentResponse[]>>,
+    "queryKey" | "queryFn"
+  >
+) {
+  return useQuery({
+    queryKey: ["comments", contentId],
+    queryFn: () =>
+      getClient().get<CommentResponse[]>(`/content/${contentId}/comments`),
+    enabled: !!contentId,
+    ...options,
+  });
+}
+
+export function useCreateComment(
+  contentId: string,
+  options?: UseMutationOptions<
+    ApiResponse<CommentResponse>,
+    Error,
+    CreateCommentRequest
+  >
+) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: CreateCommentRequest) =>
+      getClient().post<CommentResponse>(
+        `/content/${contentId}/comments`,
+        data
+      ),
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: ["comments", contentId] });
+      queryClient.invalidateQueries({ queryKey: ["content", contentId] });
+      options?.onSuccess?.(...args);
+    },
+    ...options,
+  });
+}
+
+export function useDeleteComment(
+  contentId: string,
+  options?: UseMutationOptions<ApiResponse<boolean>, Error, string>
+) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (commentId: string) =>
+      getClient().delete<boolean>(
+        `/content/${contentId}/comments/${commentId}`
+      ),
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: ["comments", contentId] });
+      queryClient.invalidateQueries({ queryKey: ["content", contentId] });
+      options?.onSuccess?.(...args);
+    },
+    ...options,
+  });
+}
+
 // ── Chat Hooks ────────────────────────────────────────
 
 export function useThreads(
@@ -416,6 +486,28 @@ export function useUnlockContent(
   });
 }
 
+// ── PPV Hooks ─────────────────────────────────────────
+
+export function useUnlockPpvMessage(
+  options?: UseMutationOptions<
+    ApiResponse<UnlockResponse>,
+    Error,
+    { messageId: string }
+  >
+) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { messageId: string }) =>
+      getClient().post<UnlockResponse>(`/messages/${data.messageId}/unlock`, {}),
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.wallet.balance });
+      queryClient.invalidateQueries({ queryKey: ["chat"] });
+      options?.onSuccess?.(...args);
+    },
+    ...options,
+  });
+}
+
 // ── Reports Hooks ─────────────────────────────────────
 
 export function useCreateReport(
@@ -486,6 +578,74 @@ export function useResolveReport(
       ),
     onSuccess: (...args) => {
       queryClient.invalidateQueries({ queryKey: ["reports"] });
+      options?.onSuccess?.(...args);
+    },
+    ...options,
+  });
+}
+
+// ── Highlight Hooks ──────────────────────────────────
+
+export function useHighlights(
+  userId: string,
+  options?: Omit<
+    UseQueryOptions<ApiResponse<HighlightResponse[]>>,
+    "queryKey" | "queryFn"
+  >
+) {
+  return useQuery({
+    queryKey: queryKeys.highlights.byUser(userId),
+    queryFn: () =>
+      getClient().get<HighlightResponse[]>(`/profiles/${userId}/highlights`),
+    enabled: !!userId,
+    ...options,
+  });
+}
+
+export function useHighlightItems(
+  highlightId: string,
+  options?: Omit<
+    UseQueryOptions<ApiResponse<HighlightItemResponse[]>>,
+    "queryKey" | "queryFn"
+  >
+) {
+  return useQuery({
+    queryKey: queryKeys.highlights.items(highlightId),
+    queryFn: () =>
+      getClient().get<HighlightItemResponse[]>(`/highlights/${highlightId}/items`),
+    enabled: !!highlightId,
+    ...options,
+  });
+}
+
+export function useCreateHighlight(
+  options?: UseMutationOptions<
+    ApiResponse<HighlightResponse>,
+    Error,
+    CreateHighlightRequest
+  >
+) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: CreateHighlightRequest) =>
+      getClient().post<HighlightResponse>("/highlights", data),
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: ["highlights"] });
+      options?.onSuccess?.(...args);
+    },
+    ...options,
+  });
+}
+
+export function useDeleteHighlight(
+  options?: UseMutationOptions<ApiResponse<boolean>, Error, string>
+) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (highlightId: string) =>
+      getClient().delete<boolean>(`/highlights/${highlightId}`),
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: ["highlights"] });
       options?.onSuccess?.(...args);
     },
     ...options,

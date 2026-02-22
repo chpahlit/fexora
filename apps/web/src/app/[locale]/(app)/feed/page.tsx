@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "@/lib/auth";
 import { useInfiniteFeed } from "@fexora/api-client";
 import { ContentCard } from "@/components/content/content-card";
+import { ContentGridSkeleton } from "@/components/content/content-card-skeleton";
 import { StoryBar } from "@/components/content/story-bar";
 import { Button } from "@/components/ui/button";
 
@@ -42,11 +43,7 @@ export default function FeedPage() {
 
       <h1 className="text-2xl font-bold">{t("nav.home")}</h1>
 
-      {isLoading && (
-        <div className="flex justify-center py-12">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        </div>
-      )}
+      {isLoading && <ContentGridSkeleton count={6} />}
 
       {allContent.length > 0 ? (
         <>

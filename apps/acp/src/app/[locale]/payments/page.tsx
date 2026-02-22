@@ -1,14 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { AppShell } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
 
 interface RevenueOverview {
   totalRevenueEur: number;
@@ -98,162 +96,196 @@ export default function PaymentsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Payments & Payouts</h1>
-        <Button variant="outline" onClick={() => handleExport("payments")}>
-          CSV Export
-        </Button>
-      </div>
-
-      {/* Revenue Overview */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription>Revenue (EUR)</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{revenue?.totalRevenueEur?.toFixed(2) ?? "0.00"} EUR</p>
-            <p className="text-xs text-muted-foreground">{revenue?.monthlyRevenueEur?.toFixed(2) ?? "0.00"} this month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription>Revenue (Coins)</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{revenue?.totalRevenueCoins ?? 0}</p>
-            <p className="text-xs text-muted-foreground">{revenue?.monthlyRevenueCoins ?? 0} this month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription>Platform Fees</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{revenue?.platformFees ?? 0}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription>Transactions</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {(revenue?.totalUnlocks ?? 0) + (revenue?.totalSubscriptions ?? 0) + (revenue?.totalTips ?? 0)}
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {revenue?.totalUnlocks ?? 0} unlocks · {revenue?.totalSubscriptions ?? 0} subs · {revenue?.totalTips ?? 0} tips
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Tabs defaultValue="payouts">
-        <TabsList>
-          <TabsTrigger value="payouts">Payouts ({payouts.length})</TabsTrigger>
-          <TabsTrigger value="sales">Coin Sales</TabsTrigger>
-          <TabsTrigger value="disputes">Disputes ({disputes.length})</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="payouts">
-          <div className="mt-4 rounded-lg border">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b bg-muted/50">
-                  <th className="px-4 py-3 text-left font-medium">Creator</th>
-                  <th className="px-4 py-3 text-left font-medium">Amount</th>
-                  <th className="px-4 py-3 text-left font-medium">Method</th>
-                  <th className="px-4 py-3 text-left font-medium">Requested</th>
-                  <th className="px-4 py-3 text-left font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {payouts.map((p) => (
-                  <tr key={p.id} className="border-b">
-                    <td className="px-4 py-3 font-medium">{p.creatorUsername}</td>
-                    <td className="px-4 py-3">{p.amount} {p.currency}</td>
-                    <td className="px-4 py-3">{p.method}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{new Date(p.requestedAt).toLocaleDateString()}</td>
-                    <td className="px-4 py-3">
-                      <div className="flex gap-1">
-                        <Button size="sm" onClick={() => handlePayout(p.id, "approve")}>Approve</Button>
-                        <Button size="sm" variant="ghost" onClick={() => handlePayout(p.id, "reject")}>Reject</Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-                {payouts.length === 0 && (
-                  <tr><td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">No pending payouts</td></tr>
-                )}
-              </tbody>
-            </table>
+    <AppShell>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">Payments & Payouts</h1>
+            <p className="text-sm text-muted-foreground">Revenue overview and transaction management</p>
           </div>
-        </TabsContent>
+          <Button variant="outline" onClick={() => handleExport("payments")}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            CSV Export
+          </Button>
+        </div>
 
-        <TabsContent value="sales">
-          <div className="mt-4 rounded-lg border">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b bg-muted/50">
-                  <th className="px-4 py-3 text-left font-medium">User</th>
-                  <th className="px-4 py-3 text-left font-medium">Pack</th>
-                  <th className="px-4 py-3 text-left font-medium">Amount</th>
-                  <th className="px-4 py-3 text-left font-medium">Coins</th>
-                  <th className="px-4 py-3 text-left font-medium">Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sales.map((s) => (
-                  <tr key={s.id} className="border-b">
-                    <td className="px-4 py-3">{s.username}</td>
-                    <td className="px-4 py-3">{s.packName}</td>
-                    <td className="px-4 py-3">{s.amountEur.toFixed(2)} EUR</td>
-                    <td className="px-4 py-3">{s.coinsReceived}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{new Date(s.createdAt).toLocaleDateString()}</td>
-                  </tr>
-                ))}
-                {sales.length === 0 && (
-                  <tr><td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">No coin sales</td></tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="disputes">
-          <div className="mt-4 space-y-3">
-            {disputes.map((d) => (
-              <Card key={d.id}>
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="font-medium">{d.type} Dispute</p>
-                      <p className="text-sm text-muted-foreground">
-                        {d.buyerUsername} vs {d.creatorUsername} · {d.amountCoins} Coins
-                      </p>
-                      <p className="text-sm mt-1">{d.reason}</p>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline" onClick={() => handleDispute(d.id, "refund")}>
-                        Refund Buyer
-                      </Button>
-                      <Button size="sm" onClick={() => handleDispute(d.id, "release")}>
-                        Release to Creator
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-            {disputes.length === 0 && (
-              <div className="rounded-lg border border-dashed p-8 text-center">
-                <p className="text-muted-foreground">No open disputes</p>
+        {/* Revenue KPIs */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-muted-foreground">Revenue (EUR)</p>
+                  <p className="text-2xl font-bold">{revenue?.totalRevenueEur?.toFixed(2) ?? "0.00"}</p>
+                  <p className="text-xs text-muted-foreground">{revenue?.monthlyRevenueEur?.toFixed(2) ?? "0.00"} this month</p>
+                </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500/10">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-500"><line x1="12" x2="12" y1="1" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
               </div>
-            )}
-          </div>
-        </TabsContent>
-      </Tabs>
-    </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-muted-foreground">Revenue (Coins)</p>
+                  <p className="text-2xl font-bold">{(revenue?.totalRevenueCoins ?? 0).toLocaleString()}</p>
+                  <p className="text-xs text-muted-foreground">{(revenue?.monthlyRevenueCoins ?? 0).toLocaleString()} this month</p>
+                </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-500/10">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-500"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-muted-foreground">Platform Fees</p>
+                  <p className="text-2xl font-bold">{(revenue?.platformFees ?? 0).toLocaleString()}</p>
+                </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/10">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-muted-foreground">Transactions</p>
+                  <p className="text-2xl font-bold">
+                    {(revenue?.totalUnlocks ?? 0) + (revenue?.totalSubscriptions ?? 0) + (revenue?.totalTips ?? 0)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {revenue?.totalUnlocks ?? 0} unlocks · {revenue?.totalSubscriptions ?? 0} subs · {revenue?.totalTips ?? 0} tips
+                  </p>
+                </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/10">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Tabs defaultValue="payouts">
+          <TabsList>
+            <TabsTrigger value="payouts">Payouts ({payouts.length})</TabsTrigger>
+            <TabsTrigger value="sales">Coin Sales</TabsTrigger>
+            <TabsTrigger value="disputes">Disputes ({disputes.length})</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="payouts">
+            <div className="mt-4 rounded-lg border">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b bg-muted/50">
+                    <th className="px-4 py-3 text-left font-medium">Creator</th>
+                    <th className="px-4 py-3 text-left font-medium">Amount</th>
+                    <th className="px-4 py-3 text-left font-medium">Method</th>
+                    <th className="px-4 py-3 text-left font-medium">Requested</th>
+                    <th className="px-4 py-3 text-left font-medium">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {payouts.map((p) => (
+                    <tr key={p.id} className="border-b hover:bg-muted/30">
+                      <td className="px-4 py-3 font-medium">{p.creatorUsername}</td>
+                      <td className="px-4 py-3 font-mono">{p.amount} {p.currency}</td>
+                      <td className="px-4 py-3">
+                        <Badge variant="outline">{p.method}</Badge>
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground text-xs">{new Date(p.requestedAt).toLocaleDateString()}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex gap-1">
+                          <Button size="sm" onClick={() => handlePayout(p.id, "approve")}>Approve</Button>
+                          <Button size="sm" variant="ghost" className="text-destructive" onClick={() => handlePayout(p.id, "reject")}>Reject</Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {payouts.length === 0 && (
+                    <tr><td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">No pending payouts</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="sales">
+            <div className="mt-4 rounded-lg border">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b bg-muted/50">
+                    <th className="px-4 py-3 text-left font-medium">User</th>
+                    <th className="px-4 py-3 text-left font-medium">Pack</th>
+                    <th className="px-4 py-3 text-right font-medium">Amount</th>
+                    <th className="px-4 py-3 text-right font-medium">Coins</th>
+                    <th className="px-4 py-3 text-left font-medium">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sales.map((s) => (
+                    <tr key={s.id} className="border-b hover:bg-muted/30">
+                      <td className="px-4 py-3 font-medium">{s.username}</td>
+                      <td className="px-4 py-3">{s.packName}</td>
+                      <td className="px-4 py-3 text-right font-mono">{s.amountEur.toFixed(2)} EUR</td>
+                      <td className="px-4 py-3 text-right font-mono">{s.coinsReceived.toLocaleString()}</td>
+                      <td className="px-4 py-3 text-muted-foreground text-xs">{new Date(s.createdAt).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                  {sales.length === 0 && (
+                    <tr><td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">No coin sales</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="disputes">
+            <div className="mt-4 space-y-3">
+              {disputes.map((d) => (
+                <Card key={d.id}>
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <Badge variant="destructive">{d.type}</Badge>
+                          <span className="text-sm font-mono">{d.amountCoins} Coins</span>
+                        </div>
+                        <p className="text-sm mt-2">
+                          <span className="font-medium">{d.buyerUsername}</span>
+                          <span className="text-muted-foreground"> vs </span>
+                          <span className="font-medium">{d.creatorUsername}</span>
+                        </p>
+                        <p className="text-sm text-muted-foreground mt-1">{d.reason}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{new Date(d.createdAt).toLocaleString()}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline" onClick={() => handleDispute(d.id, "refund")}>
+                          Refund Buyer
+                        </Button>
+                        <Button size="sm" onClick={() => handleDispute(d.id, "release")}>
+                          Release to Creator
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              {disputes.length === 0 && (
+                <div className="rounded-lg border border-dashed p-8 text-center">
+                  <p className="text-muted-foreground">No open disputes</p>
+                </div>
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </AppShell>
   );
 }

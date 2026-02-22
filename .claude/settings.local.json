@@ -40,7 +40,14 @@
       "Bash(wc -l:*)",
       "WebFetch(domain:fullstackrecipes.com)",
       "Bash(dotnet new:*)",
-      "Bash(dotnet test:*)"
+      "Bash(dotnet test:*)",
+      "Bash(\"/Users/christianpahl/.claude/plugins/cache/claude-plugins-official/ralph-loop/452c38756951/scripts/setup-ralph-loop.sh\" \"Arbeite die FEXORA Gap Closure Tickets \\(FEXORA-097 bis FEXORA-106\\) ab. Erstelle alle fehlenden Frontend-Seiten und Komponenten gemaess PROJEKTPLAN.md. Markiere fertige Tickets in tickets/README.md als Done. Stelle sicher dass alle 3 Apps erfolgreich builden.\" --max-iterations 15 --completion-promise \"GAP CLOSURE SPRINT COMPLETE\")",
+      "Bash(bash \"/Users/christianpahl/.claude/plugins/cache/claude-plugins-official/ralph-loop/452c38756951/scripts/setup-ralph-loop.sh\" --max-iterations 50 --completion-promise \"GAP SPRINT 2 COMPLETE\" \"Implement remaining PROJEKTPLAN features\")",
+      "Bash(bash \"/Users/christianpahl/.claude/plugins/cache/claude-plugins-official/ralph-loop/452c38756951/scripts/setup-ralph-loop.sh\" --max-iterations 50 --completion-promise \"GAP SPRINT 4 COMPLETE\" \"Implement remaining high-priority UX features: 1\\) Loading Skeletons on all pages \\(replace spinners\\), 2\\) Mobile Responsive Navbar \\(hamburger menu\\), 3\\) Notification Settings page, 4\\) Story Archive / Creator Highlights on profile, 5\\) Scheduling Calendar for content\")",
+      "Bash(head:*)",
+      "Bash(cat:*)",
+      "Bash(bash \"/Users/christianpahl/Desktop/GitHub/fexora/.claude/plugins/ralph-loop/setup-ralph-loop.sh\" --max-iterations 50 --completion-promise \"GAP SPRINT 6 COMPLETE\" \"Implement Phase 3 Orchestrator UI: 1\\) Scenario-Builder \\(visual timeline editor for automations\\), 2\\) Segment-Builder \\(filter dropdowns, conditions, audience definition\\), 3\\) Broadcast-Composer \\(campaign creation, A/B testing variants, scheduling\\), 4\\) Orchestrator Dashboard upgrade \\(live metrics, active scenarios, success rates\\)\")",
+      "Bash(bash \"/Users/christianpahl/.claude/plugins/cache/claude-plugins-official/ralph-loop/ff736a6da8b6/scripts/setup-ralph-loop.sh\" --max-iterations 50 --completion-promise \"GAP SPRINT 6 COMPLETE\" \"Implement Phase 3 Orchestrator UI: Scenario-Builder, Segment-Builder, Broadcast-Composer, Dashboard upgrade\")"
     ]
   }
 }

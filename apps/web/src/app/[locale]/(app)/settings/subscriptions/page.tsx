@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ListSkeleton } from "@/components/ui/page-skeleton";
 
 interface Subscription {
   id: string;
@@ -42,9 +43,7 @@ function SubscriptionsContent() {
       <h1 className="text-2xl font-bold">{t("creator.subscriptions")}</h1>
 
       {isLoading ? (
-        <div className="flex justify-center py-12">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        </div>
+        <ListSkeleton count={5} />
       ) : subscriptions.length > 0 ? (
         <div className="space-y-3">
           {subscriptions.map((sub) => (

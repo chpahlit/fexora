@@ -13,6 +13,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FollowButton } from "@/components/profile/follow-button";
 import { ProfileContentGrid } from "@/components/profile/profile-content-grid";
 import { SubscriptionTiers } from "@/components/profile/subscription-tiers";
+import { ProfileHeaderSkeleton } from "@/components/ui/page-skeleton";
+import { FollowerListModal } from "@/components/profile/follower-list-modal";
+import { StoryHighlights } from "@/components/profile/story-highlights";
 import { ReportModal } from "@/components/report-modal";
 
 export default function ProfilePage() {
@@ -21,13 +24,11 @@ export default function ProfilePage() {
   const { user, isAuthenticated } = useAuth();
   const { data, isLoading } = useProfile(params.username);
   const [showReport, setShowReport] = useState(false);
+  const [showFollowers, setShowFollowers] = useState(false);
+  const [showFollowing, setShowFollowing] = useState(false);
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center py-12">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-      </div>
-    );
+    return <ProfileHeaderSkeleton />;
   }
 
   const profile = data?.data;
@@ -70,14 +71,14 @@ export default function ProfilePage() {
               <span className="font-bold">{profile.postCount ?? 0}</span>{" "}
               <span className="text-muted-foreground">{t("posts")}</span>
             </div>
-            <div>
+            <button onClick={() => setShowFollowers(true)} className="hover:underline">
               <span className="font-bold">{profile.followerCount ?? 0}</span>{" "}
               <span className="text-muted-foreground">{t("followers")}</span>
-            </div>
-            <div>
+            </button>
+            <button onClick={() => setShowFollowing(true)} className="hover:underline">
               <span className="font-bold">{profile.followingCount ?? 0}</span>{" "}
               <span className="text-muted-foreground">{t("following")}</span>
-            </div>
+            </button>
           </div>
 
           <div className="mt-4 flex gap-2 justify-center sm:justify-start">
@@ -101,6 +102,9 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+
+      {/* Story Highlights */}
+      <StoryHighlights userId={profile.userId} isOwnProfile={isOwnProfile} />
 
       {/* Subscription Tiers */}
       {!isOwnProfile && profile.badges?.includes("creator") && (
@@ -127,6 +131,22 @@ export default function ProfilePage() {
           targetType="profile"
           targetId={profile.userId}
           onClose={() => setShowReport(false)}
+        />
+      )}
+
+      {showFollowers && (
+        <FollowerListModal
+          userId={profile.userId}
+          type="followers"
+          onClose={() => setShowFollowers(false)}
+        />
+      )}
+
+      {showFollowing && (
+        <FollowerListModal
+          userId={profile.userId}
+          type="following"
+          onClose={() => setShowFollowing(false)}
         />
       )}
     </div>
