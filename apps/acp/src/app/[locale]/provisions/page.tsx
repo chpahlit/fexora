@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { AppShell } from "@/components/app-shell";
 
 interface ProvisionRate {
   type: string;
@@ -105,8 +106,8 @@ export default function ProvisionsPage() {
   const isEditing = Object.keys(editingRates).length > 0;
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-6xl space-y-6">
+    <AppShell>
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Provision Management</h1>
@@ -299,6 +300,6 @@ export default function ProvisionsPage() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </AppShell>
   );
 }

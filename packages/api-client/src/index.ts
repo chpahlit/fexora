@@ -19,6 +19,9 @@ export {
   useCreateContent,
   useUploadContentMedia,
   useSubmitContent,
+  useComments,
+  useCreateComment,
+  useDeleteComment,
   useThreads,
   useMessages,
   useSendMessage,
@@ -27,10 +30,15 @@ export {
   useTransactions,
   useTopup,
   useUnlockContent,
+  useUnlockPpvMessage,
   useCreateReport,
   useReports,
   useReport,
   useResolveReport,
+  useHighlights,
+  useHighlightItems,
+  useCreateHighlight,
+  useDeleteHighlight,
 } from "./hooks";
 
 // Re-export all types
@@ -44,6 +52,8 @@ export type {
   ProfileResponse,
   CreateContentRequest,
   ContentResponse,
+  CommentResponse,
+  CreateCommentRequest,
   SendMessageRequest,
   ThreadResponse,
   MessageResponse,
@@ -56,5 +66,8 @@ export type {
   CreateReportRequest,
   ResolveReportRequest,
   ReportResponse,
+  HighlightResponse,
+  HighlightItemResponse,
+  CreateHighlightRequest,
   PaginationParams,
 } from "./types";

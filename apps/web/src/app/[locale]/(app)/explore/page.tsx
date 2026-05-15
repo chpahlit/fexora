@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { useFeed } from "@fexora/api-client";
 import { useQuery } from "@tanstack/react-query";
 import { ContentCard } from "@/components/content/content-card";
+import { ContentGridSkeleton } from "@/components/content/content-card-skeleton";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -87,9 +88,7 @@ export default function ExplorePage() {
 
       {/* Results */}
       {isLoading ? (
-        <div className="flex justify-center py-12">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        </div>
+        <ContentGridSkeleton count={6} />
       ) : contents.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {contents.map((content) => (

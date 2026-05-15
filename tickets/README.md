@@ -167,6 +167,23 @@ Alle Tickets abgeleitet aus dem [PROJEKTPLAN.md](../PROJEKTPLAN.md).
 
 ---
 
+## Gap Closure Sprint: Fehlende Features aus PROJEKTPLAN.md
+
+| Ticket | Titel | App | Status |
+|--------|-------|-----|--------|
+| [FEXORA-097](FEXORA-097.md) | DMCA Report (User-Formular) | Web | ✅ Done |
+| [FEXORA-098](FEXORA-098.md) | Block-Liste verwalten | Web | ✅ Done |
+| [FEXORA-099](FEXORA-099.md) | Gift-Items UI (Web) | Web | ✅ Done |
+| [FEXORA-100](FEXORA-100.md) | Creator Analytics | Web | ✅ Done |
+| [FEXORA-101](FEXORA-101.md) | Creator Earnings & Payouts | Web | ✅ Done |
+| [FEXORA-102](FEXORA-102.md) | Creator Chat-Settings | Web | ✅ Done |
+| [FEXORA-103](FEXORA-103.md) | Creator Fan-Management | Web | ✅ Done |
+| [FEXORA-104](FEXORA-104.md) | Gift-Item-Verwaltung (ACP) | ACP | ✅ Done |
+| [FEXORA-105](FEXORA-105.md) | Refund-Management (ACP) | ACP | ✅ Done |
+| [FEXORA-106](FEXORA-106.md) | Referral-Konfiguration (ACP) | ACP | ✅ Done |
+
+---
+
 ## Legende
 
 - **Open** — Noch nicht begonnen

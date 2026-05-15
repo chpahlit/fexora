@@ -8,9 +8,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 const settingsLinks = [
   { href: "/settings/profile", title: "Profile", description: "Update your public profile" },
   { href: "/settings/security", title: "Security & 2FA", description: "Manage password and two-factor auth" },
+  { href: "/settings/notifications", title: "Notifications", description: "Configure your notification preferences" },
   { href: "/settings/subscriptions", title: "Subscriptions", description: "Manage your subscriptions" },
   { href: "/settings/referrals", title: "Referrals", description: "Your referral code and stats" },
   { href: "/settings/privacy", title: "Privacy & Data", description: "DSGVO data export and deletion" },
+  { href: "/settings/blocked", title: "Blocked Users", description: "Manage your block list" },
+  { href: "/settings/dmca", title: "DMCA Report", description: "Report copyright infringement" },
 ];
 
 function SettingsContent() {

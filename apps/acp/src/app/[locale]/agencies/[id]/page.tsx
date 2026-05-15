@@ -10,6 +10,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AppShell } from "@/components/app-shell";
 
 interface AgencyDetail {
   id: string;
@@ -66,6 +67,7 @@ export default function AgencyDetailPage() {
   }
 
   return (
+    <AppShell>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
@@ -201,5 +203,6 @@ export default function AgencyDetailPage() {
         </TabsContent>
       </Tabs>
     </div>
+    </AppShell>
   );
 }

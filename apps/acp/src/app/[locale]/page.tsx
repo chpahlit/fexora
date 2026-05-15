@@ -1,158 +1,324 @@
 "use client";
 
-import { useAuth } from "@/lib/auth";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { AdminShell } from "./layout-shell";
-import { AdminTopbar } from "@/components/layout/admin-topbar";
-import { Kpi } from "@/components/ui/kpi";
-import { Eye, User, Coins, Flag, Sparkles } from "lucide-react";
+import { useAuth } from "@/lib/auth";
+import { useQuery } from "@tanstack/react-query";
+import { AppShell } from "@/components/app-shell";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-const queueItems = [
-  { who: "Liora", kind: "Bild", age: "2 min" },
-  { who: "Esm\u00E9", kind: "Clip \u00B7 02:14", age: "4 min" },
-  { who: "Veda", kind: "Story \u00B7 Kap. 4", age: "7 min" },
-  { who: "Mira", kind: "H\u00F6rspiel \u00B7 18min", age: "12 min" },
-  { who: "Nara", kind: "Bundle \u00B7 8 St.", age: "24 min" },
-];
-
-const topCreators = [
-  { name: "Liora", flames: "4.214 \uD83D\uDD25" },
-  { name: "Esm\u00E9 V.", flames: "3.108 \uD83D\uDD25" },
-  { name: "Mira", flames: "2.642 \uD83D\uDD25" },
-  { name: "Sasha Vey", flames: "1.882 \uD83D\uDD25" },
-];
-
-const sysRows = [
-  { label: "Approval-Median", value: "14 min", tone: "ok" as const },
-  { label: "Speicher", value: "68%", tone: "ok" as const },
-  { label: "Voice-Recht-Antr\u00E4ge", value: "6 offen", tone: "warn" as const },
-  { label: "Banking-Webhook", value: "\u2191 live", tone: "ok" as const },
-];
+interface PlatformKPIs {
+  totalUsers: number;
+  totalCreators: number;
+  totalContent: number;
+  pendingReviews: number;
+  pendingPayouts: number;
+  openReports: number;
+  revenueToday: number;
+  activeScenarios: number;
+}
 
 export default function AcpDashboard() {
-  const { isAuthenticated } = useAuth();
+  const t = useTranslations("common");
+  const { isAuthenticated, user, login, client } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    const res = await client.post<{
+      accessToken: string;
+      refreshToken: string;
+      user: {
+        id: string;
+        email: string;
+        role: string;
+        profile?: { username?: string };
+      };
+    }>("/auth/login", { email, password });
+    if (res.success && res.data) {
+      const u = res.data.user;
+      if (u.role === "Admin") {
+        login(res.data.accessToken, res.data.refreshToken, {
+          id: u.id,
+          email: u.email,
+          role: u.role as "Admin",
+          isVerified18: true,
+          isActive: true,
+          createdAt: "",
+          profile: u.profile
+            ? {
+                userId: u.id,
+                username: u.profile.username ?? "",
+                badges: [],
+                offersCustom: false,
+                updatedAt: "",
+              }
+            : undefined,
+        });
+      } else {
+        setError("Access denied. Admin role required.");
+      }
+    } else {
+      setError(res.error ?? "Login failed");
+    }
+  }
 
   if (!isAuthenticated) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-8">
-        <div className="w-10 h-14 bg-gold rounded-sm" />
-        <h1 className="font-serif text-h1 text-text">FEXORA Admin</h1>
-        <p className="text-body text-text-muted">Bitte mit Admin-Konto anmelden</p>
+      <main className="flex min-h-screen flex-col items-center justify-center gap-8 p-8">
+        <div className="flex flex-col items-center gap-4">
+          <h1 className="text-4xl font-bold text-primary">FEXORA ACP</h1>
+          <p className="text-lg text-muted-foreground">Admin Control Panel</p>
+        </div>
+        <form onSubmit={handleLogin} className="w-full max-w-sm space-y-4">
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {error && <p className="text-sm text-destructive">{error}</p>}
+          <Button type="submit" className="w-full">
+            {t("login")}
+          </Button>
+        </form>
       </main>
     );
   }
 
   return (
-    <AdminShell>
-      <AdminTopbar title="Dashboard" />
-      <div className="flex-1 overflow-auto p-7">
-        {/* KPIs */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
-          <Kpi label="Inhalte in Review" value="24" delta="+6" icon={Eye} critical />
-          <Kpi label="Neue Creator (24h)" value="8" delta="+2" icon={User} />
-          <Kpi label="Flames-Umsatz (heute)" value="\u20AC4.812" delta="+12.4%" icon={Coins} />
-          <Kpi label="Reports offen" value="3" delta="-2" icon={Flag} negative />
-        </div>
+    <AppShell>
+      <DashboardContent />
+    </AppShell>
+  );
+}
 
-        {/* Two columns */}
-        <div className="grid grid-cols-[2fr_1fr] gap-4 mb-4">
-          {/* Activity chart placeholder */}
-          <div className="bg-card rounded-[14px] p-5 hairline">
-            <div className="flex items-center mb-3.5">
-              <span className="font-serif text-[16px] text-text font-semibold">Aktivit\u00E4t \u00B7 letzte 7 Tage</span>
-              <div className="flex-1" />
-              <button type="button" className="text-[12px] text-gold">Details \u2192</button>
-            </div>
-            <div className="h-[200px] rounded-lg bg-elevated/50 flex items-center justify-center text-text-faint text-body-sm">
-              Chart-Platzhalter
-            </div>
-            <div className="flex gap-6 mt-3.5 text-[12px] text-text-muted">
-              <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-sm bg-gold" /> Hochgeladen <strong className="text-text">312</strong></span>
-              <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-sm bg-gold/40" /> Approved <strong className="text-text">248</strong></span>
-              <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-sm bg-danger" /> Rejected <strong className="text-text">22</strong></span>
-            </div>
-          </div>
+function DashboardContent() {
+  const { client, user } = useAuth();
 
-          {/* Live queue */}
-          <div className="bg-card rounded-[14px] p-5 hairline">
-            <div className="flex items-center mb-3.5">
-              <span className="font-serif text-[16px] text-text font-semibold">Live Review-Queue</span>
-              <div className="flex-1" />
-              <Link href="/review" className="text-[12px] text-gold">Alle \u2192</Link>
+  const { data: kpisData } = useQuery({
+    queryKey: ["admin", "dashboard", "kpis"],
+    queryFn: () => client.get<PlatformKPIs>("/admin/dashboard/kpis"),
+    refetchInterval: 30000,
+  });
+
+  const kpis = kpisData?.success ? kpisData.data : null;
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold">
+          Welcome, {user?.profile?.username ?? user?.email}
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          Platform overview and quick actions
+        </p>
+      </div>
+
+      {/* KPI Cards */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground">Total Users</p>
+                <p className="text-2xl font-bold">
+                  {(kpis?.totalUsers ?? 0).toLocaleString()}
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {kpis?.totalCreators ?? 0} creators
+                </p>
+              </div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
             </div>
-            {queueItems.map((q, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2.5 py-3"
-                style={{ borderBottom: i < queueItems.length - 1 ? "0.5px solid rgba(212,165,116,0.10)" : "none" }}
-              >
-                <div className="w-[30px] h-[30px] rounded-full bg-elevated flex items-center justify-center text-[10px] text-text font-semibold">
-                  {q.who[0]}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground">Content</p>
+                <p className="text-2xl font-bold">
+                  {(kpis?.totalContent ?? 0).toLocaleString()}
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {kpis?.pendingReviews ?? 0} pending review
+                </p>
+              </div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500/10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-500"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground">Revenue Today</p>
+                <p className="text-2xl font-bold">
+                  {(kpis?.revenueToday ?? 0).toLocaleString()}
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">coins</p>
+              </div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-500/10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-500"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground">Active Scenarios</p>
+                <p className="text-2xl font-bold">
+                  {kpis?.activeScenarios ?? 0}
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  automation
+                </p>
+              </div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 22v-2"/></svg>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Action Required */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Link href="/review">
+          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-yellow-500/10">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-500"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Content Review</p>
+                    <p className="text-xs text-muted-foreground">
+                      Pending items need attention
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-body-sm text-text font-semibold">{q.who}</div>
-                  <div className="text-[11px] text-text-muted">{q.kind}</div>
+                {(kpis?.pendingReviews ?? 0) > 0 && (
+                  <Badge variant="warning">{kpis?.pendingReviews}</Badge>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/payments">
+          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500/10">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Pending Payouts</p>
+                    <p className="text-xs text-muted-foreground">
+                      Awaiting approval
+                    </p>
+                  </div>
                 </div>
-                <span className="text-[11px] text-text-muted">{q.age}</span>
+                {(kpis?.pendingPayouts ?? 0) > 0 && (
+                  <Badge variant="warning">{kpis?.pendingPayouts}</Badge>
+                )}
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Three columns */}
-        <div className="grid grid-cols-3 gap-4">
-          {/* Top creators */}
-          <div className="bg-card rounded-[14px] p-5 hairline">
-            <span className="font-serif text-[16px] text-text font-semibold block mb-3.5">Top Creator (7 Tage)</span>
-            {topCreators.map((c, i) => (
-              <div key={i} className="flex items-center gap-2.5 py-[9px]">
-                <span className="font-serif text-[16px] text-gold italic w-5">{i + 1}</span>
-                <div className="w-[26px] h-[26px] rounded-full bg-elevated flex items-center justify-center text-[9px] text-text">{c.name[0]}</div>
-                <span className="flex-1 text-body-sm text-text">{c.name}</span>
-                <span className="text-body-sm text-gold font-semibold">{c.flames}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Packs chart */}
-          <div className="bg-card rounded-[14px] p-5 hairline">
-            <span className="font-serif text-[16px] text-text font-semibold block mb-3.5">Flames-Pakete (heute)</span>
-            {[
-              { pack: "Pack 50", n: 42, max: 88 },
-              { pack: "Pack 120", n: 88, max: 88 },
-              { pack: "Pack 280", n: 36, max: 88 },
-              { pack: "Pack 800", n: 12, max: 88 },
-            ].map((p, i) => (
-              <div key={i} className="flex items-center gap-2.5 py-[9px]">
-                <span className="flex-1 text-body-sm text-text">{p.pack}</span>
-                <div className="flex-[2] h-1.5 rounded-full bg-bg overflow-hidden">
-                  <div className="h-full rounded-full bg-gold-grad" style={{ width: `${(p.n / p.max) * 100}%` }} />
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/risk">
+          <Card className="hover:border-primary/50 transition-colors cursor-pointer h-full">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-500/10">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-500"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Open Reports</p>
+                    <p className="text-xs text-muted-foreground">
+                      Require moderation action
+                    </p>
+                  </div>
                 </div>
-                <span className="text-[11px] text-text-muted w-7 text-right">{p.n}</span>
+                {(kpis?.openReports ?? 0) > 0 && (
+                  <Badge variant="destructive">{kpis?.openReports}</Badge>
+                )}
               </div>
-            ))}
-          </div>
+            </CardContent>
+          </Card>
+        </Link>
+      </div>
 
-          {/* System */}
-          <div className="bg-card rounded-[14px] p-5 hairline">
-            <span className="font-serif text-[16px] text-text font-semibold block mb-3.5">System</span>
-            {sysRows.map((r, i) => (
-              <div
-                key={i}
-                className="flex items-center py-[9px] text-body-sm"
-                style={{ borderBottom: i < sysRows.length - 1 ? "0.5px solid rgba(212,165,116,0.10)" : "none" }}
-              >
-                <span className="flex-1 text-text-muted">{r.label}</span>
-                <div
-                  className="w-[7px] h-[7px] rounded-full mr-2"
-                  style={{ background: r.tone === "ok" ? "var(--success)" : r.tone === "warn" ? "var(--warn)" : "var(--danger)" }}
-                />
-                <span className="text-text font-medium">{r.value}</span>
-              </div>
-            ))}
-          </div>
+      {/* Quick Navigation */}
+      <div>
+        <h2 className="text-sm font-semibold text-muted-foreground mb-3">
+          Quick Navigation
+        </h2>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              href: "/users",
+              title: "Users",
+              desc: "Manage accounts & roles",
+            },
+            {
+              href: "/reports",
+              title: "Reports",
+              desc: "Revenue & analytics",
+            },
+            {
+              href: "/orchestrator",
+              title: "Orchestrator",
+              desc: "Automation dashboard",
+            },
+            {
+              href: "/settings",
+              title: "Settings",
+              desc: "Platform configuration",
+            },
+          ].map((item) => (
+            <Link key={item.href} href={item.href}>
+              <Card className="hover:border-primary/50 transition-colors cursor-pointer">
+                <CardHeader className="py-3 px-4">
+                  <CardTitle className="text-sm">{item.title}</CardTitle>
+                  <CardDescription className="text-xs">
+                    {item.desc}
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
+          ))}
         </div>
       </div>
-    </AdminShell>
+    </div>
   );
 }

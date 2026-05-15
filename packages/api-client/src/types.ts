@@ -72,11 +72,34 @@ export interface ContentResponse extends Content {
   commentCount?: number;
 }
 
+// ── Comments ─────────────────────────────────────────
+
+export interface CommentResponse {
+  id: string;
+  userId: string;
+  username: string;
+  avatarUrl?: string;
+  contentId: string;
+  parentId?: string;
+  body: string;
+  createdAt: string;
+  replies?: CommentResponse[];
+  likeCount?: number;
+  isLiked?: boolean;
+}
+
+export interface CreateCommentRequest {
+  body: string;
+  parentId?: string;
+}
+
 // ── Chat ──────────────────────────────────────────────
 
 export interface SendMessageRequest {
   receiverId: string;
   body: string;
+  ppvPriceCredits?: number;
+  mediaUrl?: string;
 }
 
 export interface ThreadResponse {
@@ -98,6 +121,9 @@ export interface MessageResponse {
   mediaUrl?: string;
   isRead: boolean;
   createdAt: string;
+  ppvPriceCredits?: number;
+  ppvPreviewText?: string;
+  isPpvUnlocked?: boolean;
 }
 
 // ── Wallet ────────────────────────────────────────────
@@ -125,6 +151,7 @@ export interface TopupResponse {
 
 export interface UnlockRequest {
   contentId: string;
+  promoCode?: string;
 }
 
 export interface UnlockResponse {
@@ -154,6 +181,30 @@ export interface ReportResponse {
   status: string;
   createdAt: string;
   resolvedAt?: string;
+}
+
+// ── Story Highlights ─────────────────────────────────
+
+export interface HighlightResponse {
+  id: string;
+  title: string;
+  coverUrl?: string;
+  itemCount: number;
+  createdAt: string;
+}
+
+export interface HighlightItemResponse {
+  id: string;
+  highlightId: string;
+  contentId: string;
+  mediaUrl: string;
+  type: string;
+  createdAt: string;
+}
+
+export interface CreateHighlightRequest {
+  title: string;
+  contentIds: string[];
 }
 
 // ── Pagination ────────────────────────────────────────

@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { AppShell } from "@/components/app-shell";
 
 interface DmcaReport {
   id: string;
@@ -102,7 +103,8 @@ export default function DmcaDetailPage() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <AppShell>
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">DMCA Report</h1>
         <Badge variant={statusVariant(report.status)}>{report.status}</Badge>
@@ -260,5 +262,6 @@ export default function DmcaDetailPage() {
         </Card>
       )}
     </div>
+    </AppShell>
   );
 }

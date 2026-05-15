@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { AppShell } from "@/components/app-shell";
 
 interface Scenario {
   id: string;
@@ -60,6 +61,7 @@ export default function ScenariosPage() {
   }
 
   return (
+    <AppShell>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Scenarios</h1>
@@ -116,5 +118,6 @@ export default function ScenariosPage() {
         </div>
       )}
     </div>
+    </AppShell>
   );
 }
