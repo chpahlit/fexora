@@ -4,17 +4,11 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useAuth } from "@/lib/auth";
+import { AuthHero } from "@/components/auth/auth-hero";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { FlameMark } from "@/components/ui/flame-mark";
+import { Mail } from "lucide-react";
 
 export default function ForgotPasswordPage() {
   const t = useTranslations();
@@ -48,58 +42,82 @@ export default function ForgotPasswordPage() {
 
   if (success) {
     return (
-      <main className="flex min-h-screen items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <CardTitle>{t("auth.checkEmail")}</CardTitle>
-            <CardDescription>{t("auth.resetEmailSent")}</CardDescription>
-          </CardHeader>
-          <CardFooter className="justify-center">
-            <Link href="/login" className="text-primary hover:underline text-sm">
+      <>
+        <AuthHero
+          title1={t("auth.loginHeroTitle1")}
+          title2={t("auth.loginHeroTitle2")}
+          subtitle={t("auth.loginHeroSub")}
+          seed={3}
+        />
+        <div className="flex items-center justify-center bg-bg p-10 lg:p-20">
+          <div className="w-full max-w-[420px] text-center">
+            <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-6 hairline-strong">
+              <Mail className="size-7 text-gold" />
+            </div>
+            <h1 className="font-serif text-[40px] text-text font-normal leading-[1.05] mb-4">
+              {t("auth.checkEmail")}
+            </h1>
+            <p className="text-body text-text-muted mb-10">
+              {t("auth.resetEmailSent")}
+            </p>
+            <Link
+              href="/login"
+              className="text-body-sm text-gold underline underline-offset-[3px] font-semibold"
+            >
               {t("auth.backToLogin")}
             </Link>
-          </CardFooter>
-        </Card>
-      </main>
+          </div>
+        </div>
+      </>
     );
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle>{t("auth.forgotPassword")}</CardTitle>
-          <CardDescription>{t("auth.forgotPasswordDescription")}</CardDescription>
-        </CardHeader>
-        <form onSubmit={handleSubmit}>
-          <CardContent className="space-y-4">
+    <>
+      <AuthHero
+        title1={t("auth.loginHeroTitle1")}
+        title2={t("auth.loginHeroTitle2")}
+        subtitle={t("auth.loginHeroSub")}
+        seed={3}
+      />
+      <div className="flex items-center justify-center bg-bg p-10 lg:p-20">
+        <div className="w-full max-w-[420px]">
+          <span className="eyebrow tracking-[3px] mb-3 block">{t("auth.forgotEyebrow")}</span>
+          <h1 className="font-serif text-[40px] text-text font-normal leading-[1.05] tracking-[-0.5px] mb-3">
+            {t("auth.forgotTitle")}
+          </h1>
+          <p className="text-body text-text-muted mb-9">
+            {t("auth.forgotSub")}
+          </p>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             {error && (
-              <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+              <div className="rounded-lg bg-danger/10 border border-danger/20 px-4 py-3 text-body-sm text-danger">
                 {error}
               </div>
             )}
-            <div className="space-y-2">
-              <Label htmlFor="email">{t("auth.email")}</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                placeholder="mail@example.com"
-              />
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col gap-4">
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
+
+            <Input
+              label={t("auth.email")}
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder="mail@example.com"
+            />
+
+            <Button type="submit" variant="primary" size="lg" className="w-full mt-4" disabled={isSubmitting}>
               {isSubmitting ? t("common.loading") : t("auth.sendResetLink")}
             </Button>
-            <Link href="/login" className="text-sm text-muted-foreground hover:text-primary">
+          </form>
+
+          <p className="text-center text-body-sm text-text-muted mt-8">
+            <Link href="/login" className="text-gold underline underline-offset-[3px]">
               {t("auth.backToLogin")}
             </Link>
-          </CardFooter>
-        </form>
-      </Card>
-    </main>
+          </p>
+        </div>
+      </div>
+    </>
   );
 }

@@ -2,20 +2,46 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  icon?: React.ReactNode;
+  trail?: React.ReactNode;
+}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, label, icon, trail, ...props }, ref) => {
     return (
-      <input
-        type={type}
-        className={cn(
-          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-          className
+      <div className="flex flex-col gap-1.5">
+        {label && (
+          <label className="eyebrow">{label}</label>
         )}
-        ref={ref}
-        {...props}
-      />
+        <div className="relative flex items-center">
+          {icon && (
+            <span className="absolute left-3 text-text-muted [&_svg]:size-4">
+              {icon}
+            </span>
+          )}
+          <input
+            type={type}
+            className={cn(
+              "flex h-11 w-full rounded-lg bg-surface text-body text-text placeholder:text-text-faint transition-fexora",
+              "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold",
+              "disabled:cursor-not-allowed disabled:opacity-50",
+              "hairline hover:hairline-strong",
+              icon ? "pl-10 pr-3" : "px-3",
+              trail ? "pr-10" : "",
+              className
+            )}
+            ref={ref}
+            {...props}
+          />
+          {trail && (
+            <span className="absolute right-3 text-text-muted [&_svg]:size-4">
+              {trail}
+            </span>
+          )}
+        </div>
+      </div>
     );
   }
 );

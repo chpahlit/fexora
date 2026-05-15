@@ -8,7 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fexora.Infrastructure.Services;
 
-public class ContentService(FexoraDbContext db, IStorageService storage) : IContentService
+public class ContentService(
+    FexoraDbContext db,
+    IStorageService storage,
+    IContentModerationOrchestrator aiModeration
+) : IContentService
 {
     private const string MediaBucket = "content";
 
@@ -79,6 +83,19 @@ public class ContentService(FexoraDbContext db, IStorageService storage) : ICont
 
         content.Status = ContentStatus.Pending;
         await db.SaveChangesAsync();
+
+        // Fire AI moderation (best-effort, doesn't block submission)
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await aiModeration.AnalyzeContentAsync(contentId);
+            }
+            catch
+            {
+                // AI failure should not block content submission
+            }
+        });
 
         return await MapToResponseAsync(content);
     }

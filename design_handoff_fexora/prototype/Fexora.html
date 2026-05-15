@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Fexora · Web Screens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  html, body {
+    margin: 0; padding: 0; background: #f0eee9;
+    font-family: 'Geist', -apple-system, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  * { box-sizing: border-box; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="theme.jsx"></script>
+<script type="text/babel" src="screens-marketing.jsx"></script>
+<script type="text/babel" src="screens-app-key.jsx"></script>
+<script type="text/babel" src="screens-app-support.jsx"></script>
+<script type="text/babel" src="screens-admin-web.jsx"></script>
+<script type="text/babel" src="screens-moderation-web.jsx"></script>
+
+<script type="text/babel">
+const APP_W = 1440;
+const APP_H = 900;
+const MKT_W = 1480;
+const MKT_H = 920;
+
+function App() {
+  return (
+    <DesignCanvas>
+      {/* ──────────────── Marketing Landing ──────────────── */}
+      <DCSection id="marketing" title="Marketing-Landing (öffentlich, vor Login)" subtitle="2 Varianten — im Browser-Frame, fexora.com">
+        <DCArtboard id="land-a" label="A · Editorial Masthead" width={MKT_W} height={MKT_H}><LandingEditorial/></DCArtboard>
+        <DCArtboard id="land-b" label="B · Boutique Gallery" width={MKT_W} height={MKT_H}><LandingBoutique/></DCArtboard>
+      </DCSection>
+
+      {/* ──────────────── App · Feed ──────────────── */}
+      <DCSection id="feed" title="App · Feed (eingeloggt)" subtitle="2 Varianten — Editorial 3-Spalten und Gallery-Grid">
+        <DCArtboard id="feed-a" label="A · Editorial 3-Column" width={APP_W} height={APP_H}><FeedEditorialWeb/></DCArtboard>
+        <DCArtboard id="feed-b" label="B · Gallery Grid" width={APP_W} height={APP_H}><FeedGalleryWeb/></DCArtboard>
+      </DCSection>
+
+      {/* ──────────────── App · Creator-Profil ──────────────── */}
+      <DCSection id="profile" title="App · Creator-Profil" subtitle="2 Varianten">
+        <DCArtboard id="profile-a" label="A · Editorial Cover" width={APP_W} height={APP_H}><ProfileEditorialWeb/></DCArtboard>
+        <DCArtboard id="profile-b" label="B · Boutique Storefront" width={APP_W} height={APP_H}><ProfileBoutiqueWeb/></DCArtboard>
+      </DCSection>
+
+      {/* ──────────────── App · Content Detail ──────────────── */}
+      <DCSection id="detail" title="App · Content-Detail & Paywall" subtitle="2 Varianten Unlock-Mechanik">
+        <DCArtboard id="detail-a" label="A · Modal Sheet" width={APP_W} height={APP_H}><DetailModalWeb/></DCArtboard>
+        <DCArtboard id="detail-b" label="B · Édition Privée" width={APP_W} height={APP_H}><DetailEditionWeb/></DCArtboard>
+      </DCSection>
+
+      {/* ──────────────── App · Support ──────────────── */}
+      <DCSection id="app-support" title="App · weitere Screens" subtitle="Login · Chat · Wallet · Entdecken · Settings">
+        <DCArtboard id="login" label="Login / Anmelden" width={APP_W} height={APP_H}><LoginWeb/></DCArtboard>
+        <DCArtboard id="chat" label="Chat mit Voice-Messages" width={APP_W} height={APP_H}><ChatWeb/></DCArtboard>
+        <DCArtboard id="wallet" label="Wallet / Flames" width={APP_W} height={APP_H}><WalletWeb/></DCArtboard>
+        <DCArtboard id="search" label="Entdecken / Search" width={APP_W} height={APP_H}><SearchWeb/></DCArtboard>
+        <DCArtboard id="settings" label="Profil & Einstellungen" width={APP_W} height={APP_H}><SettingsWeb/></DCArtboard>
+      </DCSection>
+
+      {/* ──────────────── Admin ──────────────── */}
+      <DCSection id="admin" title="Admin Console" subtitle="Approval & Plattform-Management">
+        <DCArtboard id="admin-dash" label="Dashboard" width={APP_W} height={APP_H}><AdminDashboardWeb/></DCArtboard>
+        <DCArtboard id="admin-queue" label="Review-Queue" width={APP_W} height={APP_H}><AdminQueueWeb/></DCArtboard>
+        <DCArtboard id="admin-review" label="Review-Detail" width={APP_W} height={APP_H}><AdminReviewWeb/></DCArtboard>
+        <DCArtboard id="admin-users" label="Nutzer-Management" width={APP_W} height={APP_H}><AdminUsersWeb/></DCArtboard>
+        <DCArtboard id="admin-creators" label="Creator & Badges" width={APP_W} height={APP_H}><AdminCreatorsWeb/></DCArtboard>
+        <DCArtboard id="admin-analytics" label="Analytics" width={APP_W} height={APP_H}><AdminAnalyticsWeb/></DCArtboard>
+      </DCSection>
+
+      {/* ──────────────── Moderation ──────────────── */}
+      <DCSection id="moderation" title="Moderation-Tool" subtitle="Trust & Safety">
+        <DCArtboard id="mod-queue" label="Report-Queue" width={APP_W} height={APP_H}><ModQueueWeb/></DCArtboard>
+        <DCArtboard id="mod-detail" label="Report-Detail" width={APP_W} height={APP_H}><ModReportDetailWeb/></DCArtboard>
+        <DCArtboard id="mod-chats" label="Chat-Moderation + Voice" width={APP_W} height={APP_H}><ModChatsWeb/></DCArtboard>
+        <DCArtboard id="mod-audit" label="Audit-Log" width={APP_W} height={APP_H}><ModAuditWeb/></DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

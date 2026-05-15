@@ -1,110 +1,192 @@
 @import "tailwindcss";
 
-@theme {
-  /* Fexora Brand Colors */
-  --color-mocha-50: oklch(0.97 0.01 55);
-  --color-mocha-100: oklch(0.93 0.02 55);
-  --color-mocha-200: oklch(0.86 0.04 55);
-  --color-mocha-300: oklch(0.78 0.06 55);
-  --color-mocha-400: oklch(0.68 0.08 50);
-  --color-mocha-500: oklch(0.58 0.09 45);
-  --color-mocha-600: oklch(0.50 0.09 40);
-  --color-mocha-700: oklch(0.42 0.08 38);
-  --color-mocha-800: oklch(0.35 0.07 35);
-  --color-mocha-900: oklch(0.28 0.05 35);
-  --color-mocha-950: oklch(0.18 0.03 35);
+/* ─── Fexora Design Tokens (Design Handoff §3) ─── */
 
-  --color-butter-50: oklch(0.98 0.02 95);
-  --color-butter-100: oklch(0.96 0.04 95);
-  --color-butter-200: oklch(0.92 0.08 90);
-  --color-butter-300: oklch(0.87 0.12 85);
-  --color-butter-400: oklch(0.82 0.14 80);
-  --color-butter-500: oklch(0.77 0.15 75);
-  --color-butter-600: oklch(0.68 0.13 70);
-  --color-butter-700: oklch(0.57 0.11 65);
-  --color-butter-800: oklch(0.48 0.09 60);
-  --color-butter-900: oklch(0.40 0.07 55);
-  --color-butter-950: oklch(0.25 0.04 55);
+:root {
+  /* Backgrounds */
+  --bg: #0a0807;
+  --surface: #14110d;
+  --card: #1a1612;
+  --elevated: #221c16;
 
-  --color-lavender-50: oklch(0.97 0.02 290);
-  --color-lavender-100: oklch(0.94 0.04 290);
-  --color-lavender-200: oklch(0.89 0.07 285);
-  --color-lavender-300: oklch(0.82 0.10 280);
-  --color-lavender-400: oklch(0.73 0.13 275);
-  --color-lavender-500: oklch(0.65 0.15 270);
-  --color-lavender-600: oklch(0.55 0.15 270);
-  --color-lavender-700: oklch(0.47 0.14 270);
-  --color-lavender-800: oklch(0.40 0.12 270);
-  --color-lavender-900: oklch(0.33 0.09 270);
-  --color-lavender-950: oklch(0.22 0.06 270);
+  /* Borders / Hairlines */
+  --hair: rgba(212, 165, 116, 0.10);
+  --hair-strong: rgba(212, 165, 116, 0.22);
 
-  --color-cherry-50: oklch(0.97 0.01 15);
-  --color-cherry-100: oklch(0.94 0.03 15);
-  --color-cherry-200: oklch(0.88 0.06 10);
-  --color-cherry-300: oklch(0.80 0.10 8);
-  --color-cherry-400: oklch(0.70 0.16 5);
-  --color-cherry-500: oklch(0.60 0.20 5);
-  --color-cherry-600: oklch(0.52 0.20 3);
-  --color-cherry-700: oklch(0.45 0.18 3);
-  --color-cherry-800: oklch(0.38 0.15 3);
-  --color-cherry-900: oklch(0.32 0.11 3);
-  --color-cherry-950: oklch(0.20 0.07 3);
+  /* Brand Gold */
+  --gold: #d4a574;
+  --gold-bright: #e8c089;
+  --gold-deep: #a07a4d;
+  --gold-dark: #6b5235;
+  --gold-grad: linear-gradient(135deg, #e8c089 0%, #d4a574 40%, #a07a4d 100%);
 
-  /* Semantic tokens (light) */
-  --color-background: oklch(0.99 0.005 55);
-  --color-foreground: oklch(0.18 0.03 35);
-  --color-card: oklch(1 0 0);
-  --color-card-foreground: oklch(0.18 0.03 35);
-  --color-popover: oklch(1 0 0);
-  --color-popover-foreground: oklch(0.18 0.03 35);
-  --color-primary: oklch(0.50 0.09 40);
-  --color-primary-foreground: oklch(0.98 0.01 55);
-  --color-secondary: oklch(0.94 0.04 290);
-  --color-secondary-foreground: oklch(0.33 0.09 270);
-  --color-muted: oklch(0.96 0.01 55);
-  --color-muted-foreground: oklch(0.50 0.03 55);
-  --color-accent: oklch(0.82 0.14 80);
-  --color-accent-foreground: oklch(0.25 0.04 55);
-  --color-destructive: oklch(0.60 0.20 5);
-  --color-destructive-foreground: oklch(0.97 0.01 15);
-  --color-border: oklch(0.90 0.02 55);
-  --color-input: oklch(0.90 0.02 55);
-  --color-ring: oklch(0.50 0.09 40);
+  /* Text */
+  --text: #f5efe6;
+  --text-muted: #9a8f82;
+  --text-faint: #5a5249;
 
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
+  /* Status */
+  --danger: #c45a4a;
+  --success: #6b9a6e;
+  --warn: #d4a574;
 }
+
+@theme {
+  /* Font families — reference Next.js font-loader CSS vars */
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Colors mapped to CSS variables */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-foreground: var(--text);
+  --color-elevated: var(--elevated);
+  --color-hair: var(--hair);
+  --color-hair-strong: var(--hair-strong);
+
+  --color-gold: var(--gold);
+  --color-gold-bright: var(--gold-bright);
+  --color-gold-deep: var(--gold-deep);
+  --color-gold-dark: var(--gold-dark);
+
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
+
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-warn: var(--warn);
+
+  /* Semantic aliases (for shadcn compat) */
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-primary: var(--gold);
+  --color-primary-foreground: #0a0807;
+  --color-secondary: var(--elevated);
+  --color-secondary-foreground: var(--text);
+  --color-muted: var(--surface);
+  --color-muted-foreground: var(--text-muted);
+  --color-accent: var(--gold-bright);
+  --color-accent-foreground: #0a0807;
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: var(--text);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--text);
+  --color-border: var(--hair);
+  --color-input: var(--hair-strong);
+  --color-ring: var(--gold);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 999px;
+
+  /* Type Scale — Display (Cormorant Garamond) */
+  --font-size-display-1: 96px;
+  --font-size-display-1--line-height: 0.92;
+  --font-size-display-1--letter-spacing: -3px;
+
+  --font-size-display-2: 64px;
+  --font-size-display-2--line-height: 0.95;
+  --font-size-display-2--letter-spacing: -1.5px;
+
+  --font-size-display-3: 48px;
+  --font-size-display-3--line-height: 1.05;
+  --font-size-display-3--letter-spacing: -1px;
+
+  --font-size-h1: 38px;
+  --font-size-h1--line-height: 1.1;
+  --font-size-h1--letter-spacing: -0.5px;
+
+  --font-size-h2: 28px;
+  --font-size-h2--line-height: 1.15;
+  --font-size-h2--letter-spacing: -0.3px;
+
+  --font-size-h3: 22px;
+  --font-size-h3--line-height: 1.2;
+
+  /* Type Scale — Body (Geist) */
+  --font-size-body-lg: 17px;
+  --font-size-body-lg--line-height: 1.55;
+
+  --font-size-body: 14px;
+  --font-size-body--line-height: 1.55;
+
+  --font-size-body-sm: 13px;
+  --font-size-body-sm--line-height: 1.5;
+
+  --font-size-caption: 11px;
+  --font-size-caption--line-height: 1.4;
+  --font-size-caption--letter-spacing: 1.5px;
+
+  --font-size-mono: 11px;
+  --font-size-mono--line-height: 1.4;
+}
+
+/* ─── Base Styles ─── */
 
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-bg text-text;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Gold focus ring */
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition-duration: 0ms !important;
+      animation-duration: 0ms !important;
+    }
   }
 }
 
-.dark {
-  --color-background: oklch(0.15 0.02 35);
-  --color-foreground: oklch(0.93 0.01 55);
-  --color-card: oklch(0.18 0.02 35);
-  --color-card-foreground: oklch(0.93 0.01 55);
-  --color-popover: oklch(0.18 0.02 35);
-  --color-popover-foreground: oklch(0.93 0.01 55);
-  --color-primary: oklch(0.68 0.08 50);
-  --color-primary-foreground: oklch(0.15 0.02 35);
-  --color-secondary: oklch(0.28 0.06 270);
-  --color-secondary-foreground: oklch(0.82 0.10 280);
-  --color-muted: oklch(0.22 0.02 35);
-  --color-muted-foreground: oklch(0.65 0.02 55);
-  --color-accent: oklch(0.77 0.15 75);
-  --color-accent-foreground: oklch(0.15 0.02 35);
-  --color-destructive: oklch(0.52 0.20 3);
-  --color-destructive-foreground: oklch(0.97 0.01 15);
-  --color-border: oklch(0.28 0.02 35);
-  --color-input: oklch(0.28 0.02 35);
-  --color-ring: oklch(0.68 0.08 50);
+/* ─── Custom Utilities (support hover:/focus: variants) ─── */
+
+@utility hairline {
+  box-shadow: inset 0 0 0 0.5px rgba(212, 165, 116, 0.10);
+}
+
+@utility hairline-strong {
+  box-shadow: inset 0 0 0 1px rgba(212, 165, 116, 0.22);
+}
+
+@utility bg-gold-grad {
+  background-image: linear-gradient(135deg, #e8c089 0%, #d4a574 40%, #a07a4d 100%);
+}
+
+@utility eyebrow {
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+@utility text-gold-grad {
+  background: linear-gradient(135deg, #e8c089 0%, #d4a574 40%, #a07a4d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility transition-fexora {
+  transition: all 150ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+@utility transition-fexora-layout {
+  transition: all 300ms cubic-bezier(0.2, 0.7, 0.3, 1);
 }

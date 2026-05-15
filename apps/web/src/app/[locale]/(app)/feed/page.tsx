@@ -1,82 +1,85 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useTranslations } from "next-intl";
-import { useAuth } from "@/lib/auth";
-import { useInfiniteFeed } from "@fexora/api-client";
-import { ContentCard } from "@/components/content/content-card";
-import { StoryBar } from "@/components/content/story-bar";
-import { Button } from "@/components/ui/button";
+import {
+  FeedHeroPost,
+  FeedVideoPost,
+  FeedStoryPost,
+  type FeedItem,
+} from "@/components/feed/feed-post";
+import { FeedRightRail } from "@/components/feed/feed-right-rail";
+import { GoldDivider } from "@/components/ui/gold-divider";
+
+/* ─── Mock Data (bis API steht) ─── */
+const mockFeed: FeedItem[] = [
+  {
+    id: "1",
+    kind: "image",
+    title: "Eine Kerze brennt nie zweimal gleich.",
+    seed: 0,
+    lock: "blur",
+    price: 24,
+    creator: { name: "Liora", handle: "@liora.noir", verified: true, voice: true },
+    likes: "4.2k",
+    comments: "312",
+    timeAgo: "vor 12 Min.",
+  },
+  {
+    id: "2",
+    kind: "video",
+    title: "Im Spiegelsalon.",
+    description:
+      "\u201EDrei Aufnahmen aus dem Atelier am Sp\u00E4tnachmittag. Honiglicht, Seide, ein gehaltener Atem.\u201C",
+    meta: "Akt I · Video · 02:14",
+    seed: 1,
+    lock: "gold",
+    price: 48,
+    creator: { name: "Esmé Vauclair", handle: "@esme", verified: true },
+    likes: "2.1k",
+    comments: "89",
+    timeAgo: "vor 2 Std.",
+  },
+  {
+    id: "3",
+    kind: "story",
+    title: "Kapitel III — Wenn der Vorhang fällt.",
+    description:
+      "Es war ein Donnerstag, an dem ich beschloss, niemandem mehr zu antworten. Die Vorhänge im Atelier hatten sich um eine Idee verschoben, und das Licht — das Licht, das ich seit Tagen suchte — kam jetzt von rechts. Wie wenn jemand wartet…",
+    meta: "Story · 8 Kapitel",
+    seed: 3,
+    lock: "mosaic",
+    price: 12,
+    creator: { name: "Sasha Vey", handle: "@sasha.vey", verified: true, voice: true },
+    likes: "986",
+    comments: "142",
+    timeAgo: "vor 6 Std.",
+  },
+];
 
 export default function FeedPage() {
-  const t = useTranslations();
-  const { isAuthenticated } = useAuth();
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteFeed(20);
-  const loadMoreRef = useRef<HTMLDivElement>(null);
-
-  // Infinite scroll observer
-  useEffect(() => {
-    if (!loadMoreRef.current || !hasNextPage) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(loadMoreRef.current);
-    return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-  const allContent =
-    data?.pages.flatMap((page) =>
-      page.success ? page.data?.data ?? [] : []
-    ) ?? [];
+  const today = new Date().toLocaleDateString("de-DE", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
 
   return (
-    <div className="space-y-6">
-      {/* Story Bar */}
-      <StoryBar />
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10 max-w-[1200px] mx-auto">
+      {/* Main Feed Column */}
+      <div>
+        {/* Hero Post */}
+        <FeedHeroPost item={mockFeed[0]} />
 
-      <h1 className="text-2xl font-bold">{t("nav.home")}</h1>
+        <GoldDivider className="mb-12" />
 
-      {isLoading && (
-        <div className="flex justify-center py-12">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        </div>
-      )}
+        {/* Video Post */}
+        <FeedVideoPost item={mockFeed[1]} />
 
-      {allContent.length > 0 ? (
-        <>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {allContent.map((content) => (
-              <ContentCard key={content.id} content={content} />
-            ))}
-          </div>
-          <div ref={loadMoreRef} className="flex justify-center py-4">
-            {isFetchingNextPage && (
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-            )}
-            {!hasNextPage && allContent.length > 0 && (
-              <p className="text-sm text-muted-foreground">
-                You&apos;ve reached the end
-              </p>
-            )}
-          </div>
-        </>
-      ) : (
-        !isLoading && (
-          <div className="rounded-lg border border-dashed p-12 text-center">
-            <p className="text-muted-foreground">
-              {isAuthenticated
-                ? "No content in your feed yet. Follow creators to see their posts!"
-                : "Sign in to see your personalized feed."}
-            </p>
-          </div>
-        )
-      )}
+        {/* Story Post */}
+        <FeedStoryPost item={mockFeed[2]} />
+      </div>
+
+      {/* Right Rail */}
+      <FeedRightRail />
     </div>
   );
 }

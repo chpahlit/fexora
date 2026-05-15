@@ -7,7 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fexora.Infrastructure.Services;
 
-public class ChatService(FexoraDbContext db) : IChatService
+public class ChatService(
+    FexoraDbContext db,
+    IContentModerationOrchestrator aiModeration,
+    IReportService reportService
+) : IChatService
 {
     public async Task<List<ThreadResponse>> GetThreadsAsync(Guid userId)
     {
@@ -107,6 +111,36 @@ public class ChatService(FexoraDbContext db) : IChatService
 
         db.Messages.Add(message);
         await db.SaveChangesAsync();
+
+        // AI moderation on chat message (fire-and-forget, non-blocking)
+        var messageId = message.Id;
+        var messageBody = message.Body;
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                var result = await aiModeration.AnalyzeChatMessageAsync(messageBody);
+                var msg = await db.Messages.FindAsync(messageId);
+                if (msg != null)
+                {
+                    msg.AiScore = result.Score;
+                    msg.AiFlagged = result.Score > 0.7;
+                    await db.SaveChangesAsync();
+
+                    if (result.Score > 0.7)
+                    {
+                        await reportService.CreateReport(Guid.Empty, new Core.DTOs.Admin.CreateReportRequest
+                        {
+                            TargetMessageId = messageId,
+                            TargetUserId = senderId,
+                            Reason = "InappropriateContent",
+                            Description = $"[KI-Auto-Flag] Score: {result.Score:F2}. Flags: {string.Join(", ", result.Flags)}"
+                        });
+                    }
+                }
+            }
+            catch { /* AI failure must not affect chat delivery */ }
+        });
 
         // Load sender profile for response
         await db.Entry(message).Reference(m => m.Sender).LoadAsync();

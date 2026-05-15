@@ -11,6 +11,10 @@ public class Message
     public bool IsRead { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    // AI Moderation
+    public double? AiScore { get; set; }
+    public bool AiFlagged { get; set; }
+
     public Thread Thread { get; set; } = null!;
     public User Sender { get; set; } = null!;
 }

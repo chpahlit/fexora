@@ -16,6 +16,12 @@ public class Content
     public string? ReviewComment { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    // AI Moderation
+    public double? AiScore { get; set; }
+    public string? AiFskRating { get; set; }
+    public string? AiFlags { get; set; }
+    public DateTime? AiAnalyzedAt { get; set; }
+
     public User Owner { get; set; } = null!;
     public ICollection<Purchase> Purchases { get; set; } = [];
     public ICollection<Like> Likes { get; set; } = [];
