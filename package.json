@@ -22,8 +22,8 @@
     "generate": "pnpm --filter @fexora/api-client generate"
   },
   "devDependencies": {
-    "turbo": "^2",
-    "vitest": "^4.0.18"
+    "turbo": "^2.9.14",
+    "vitest": "^4.1.6"
   },
   "packageManager": "pnpm@9.11.0"
 }

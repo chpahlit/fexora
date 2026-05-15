@@ -8,14 +8,14 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@microsoft/signalr": "^8",
-    "@fexora/shared": "workspace:*"
+    "@fexora/shared": "workspace:*",
+    "@microsoft/signalr": "^10.0.0"
   },
   "peerDependencies": {
     "react": "^18 || ^19"
   },
   "devDependencies": {
-    "@types/react": "^19",
-    "typescript": "^5"
+    "@types/react": "^19.2.14",
+    "typescript": "^6.0.3"
   }
 }

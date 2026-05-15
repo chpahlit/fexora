@@ -13,9 +13,9 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "typescript": "^5"
+    "typescript": "^6.0.3"
   },
   "dependencies": {
-    "zod": "^4.3.6"
+    "zod": "^4.4.3"
   }
 }
